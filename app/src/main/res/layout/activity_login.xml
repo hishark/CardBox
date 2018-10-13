@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardCornerRadius="8dp"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/TextInputEditText_login_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_username_32_yellow"
+                    android:drawableLeft="@drawable/ic_username_32_yellow"
+                    android:hint="请输入用户名"
+                    android:inputType="text"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/TextInputLayout_password"
+                app:passwordToggleEnabled="true"
+                >
+
+                <EditText
+                    android:id="@+id/TextInputEditText_login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/ic_password_32_yellow"
+                    android:drawableStart="@drawable/ic_password_32_yellow"
+                    android:hint="请输入密码"
+                    android:inputType="textPassword"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <CheckBox
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="记住密码"/>
+
+            <android.support.v7.widget.CardView
+                android:elevation="5dp"
+
+                android:id="@+id/pretend_Button_login"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@color/colorPrimaryDark"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="登 录"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorWhite"/>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_clickToSignUp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="没有账号？注册一个"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
