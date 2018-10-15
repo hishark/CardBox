@@ -1,5 +1,6 @@
 package com.example.mac.cardbox.activity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TextInputEditText;
@@ -7,7 +8,13 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.example.mac.cardbox.R;
@@ -18,23 +25,32 @@ public class LoginActivity extends AppCompatActivity {
 
     private CardView pretend_button_login;
     private TextView tv_clickToSignUp;
+    //云服务器47.106.148.107
+    private String SearchUserUrl = "http://192.168.137.1:8080/CardBox-Server/Search_User";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //activity切换动画，放在这备用，登录注册界面由于要finish所以效果不太好，用到之后的activity里吧
+        /*Slide slide1 = new Slide();
+        slide1.setSlideEdge(Gravity.END);
+        slide1.setDuration(100);
+        getWindow().setEnterTransition(slide1);
+
+        Slide slide2 = new Slide();
+        slide2.setSlideEdge(Gravity.END);
+        slide2.setDuration(100);
+        getWindow().setExitTransition(slide2);*/
+
         setContentView(R.layout.activity_login);
 
-        initView();
-
         /**
-         * 给登录设置一个点击事件，点击后阴影变深，伪装成Button哈哈哈哈
+         * 隐藏标题栏
          */
-        pretend_button_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pretend_button_login.setCardElevation(10);
-            }
-        });
+        getSupportActionBar().hide();
+
+        initView();
 
         /**
          * 点击[没有账号？注册一个]跳转到注册界面
@@ -44,7 +60,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent  = new Intent(LoginActivity.this,SignUpActivity.class);
                 startActivity(intent);
+                //startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this).toBundle());
                 finish();
+
+
             }
         });
 
