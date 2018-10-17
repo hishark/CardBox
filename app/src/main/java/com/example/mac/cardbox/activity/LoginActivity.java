@@ -169,7 +169,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Log.d(TAG, "veriftLoginState: 这里出了点问题 没法启动活动");
             Intent intent  = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
-            //finish();
+            finish();
         }else{
             Toast.makeText(this, "你还没登录啦", Toast.LENGTH_SHORT).show();
         }
