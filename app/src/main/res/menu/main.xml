@@ -4,6 +4,6 @@
         android:id="@+id/item_add"
         android:title="Log Out"/>
     <item
-        android:id="@+id/item_remove"
+        android:id="@+id/item_other"
         android:title="..."/>
 </menu>

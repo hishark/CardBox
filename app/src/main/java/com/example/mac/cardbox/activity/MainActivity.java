@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.bean.User;
+import com.example.mac.cardbox.util.Constant;
 import com.example.mac.cardbox.util.CurrentUserUtil;
 import com.google.gson.Gson;
 
@@ -33,7 +34,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private long LastClickTime;
-    private String searchUserByAccountUrl = "http://192.168.137.1:8080/CardBox-Server/SearchUserByAccount";
+    private String searchUserByAccountUrl = "http://" + Constant.Local_Server_IP + ":8080/CardBox-Server/SearchUserByAccount";
     private static final String TAG = "MainActivity";
     private static final int AutoLogin_TAG = 1;
     private SharedPreferences sharedPreferences;
@@ -111,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 finish();
 
                 break;
-            case R.id.item_remove:
-                Toast.makeText(this, "You clicked ...!", Toast.LENGTH_SHORT).show();
+            case R.id.item_other:
+                Intent intent1 = new Intent(MainActivity.this,MainNavigationActivity.class);
+                startActivity(intent1);
                 break;
         }
         return super.onOptionsItemSelected(item);

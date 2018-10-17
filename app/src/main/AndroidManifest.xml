@@ -8,15 +8,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/card01"
+        android:icon="@drawable/ic_logo_bear"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/card01"
+        android:roundIcon="@drawable/ic_logo_bear"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.LoginActivity">
-
-        </activity>
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SignUpActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
@@ -25,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.MainNavigationActivity"
+            android:label="@string/title_activity_main_navigation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

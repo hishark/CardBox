@@ -25,6 +25,7 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mac.cardbox.R;
+import com.example.mac.cardbox.util.Constant;
 import com.example.mac.cardbox.util.NetworkUtil;
 
 import org.json.JSONException;
@@ -57,16 +59,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private TextInputLayout layout_sign_up_username;
     private TextInputLayout layout_sign_up_password;
     private TextInputLayout layout_sign_up_assure_password;
-    //云服务器47.106.148.107
-    private String getAllUserUrl = "http://192.168.137.1:8080/CardBox-Server/User_GetAll";
-    private String insertUserUrl = "http://192.168.137.1:8080/CardBox-Server/Add_User";
-    private String searchUserByAccountUrl = "http://192.168.137.1:8080/CardBox-Server/SearchUserByAccount";
+    private String getAllUserUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/User_GetAll";
+    private String insertUserUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/Add_User";
+    private String searchUserByAccountUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/SearchUserByAccount";
 
     private static final String TAG = "SignUpActivity";
     private static final int User_Add_Success_TAG = 1;
     private static final int User_Add_Fail_TAG = 2;
     private static final int UserIsExist_TAG = 3;
     private static final int UserIsNotExist_TAG = 4;
+    private long LastClickTime;
 
     Handler handler = new Handler() {
         @Override
@@ -153,6 +155,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         //注册监听器
         pretend_Button_signup.setOnClickListener(this);
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK) {
+            //距离上次按返回键如果超过2000ms就认为是误操作，toast提醒一下，并更新LastClickTime
+            if((System.currentTimeMillis() - LastClickTime) > 2000) {
+                Toast.makeText(this, "再按一次“返回”退出应用程序", Toast.LENGTH_SHORT).show();
+                LastClickTime = System.currentTimeMillis();
+            }else{
+                //退出程序
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**

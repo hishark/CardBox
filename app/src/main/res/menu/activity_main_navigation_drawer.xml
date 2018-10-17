@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_mycardbox"
+            android:icon="@drawable/ic_nav_cardbox_32_yellow"
+            android:title="我的卡盒" />
+        <item
+            android:id="@+id/nav_mylove"
+            android:icon="@drawable/ic_nav_love_32_yellow_02"
+            android:title="我喜欢的" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_nav_search_32_yellow_01"
+            android:title="搜索" />
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_nav_info_32_yellow_01"
+            android:title="消息提醒" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_nav_logout_32_yellow_01"
+            android:title="注销" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_nav_setting_32_yellow_01"
+            android:title="设置" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_nav_other_32_yellow_01"
+            android:title="关于" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <!--这里直接放item即可，暂时没啥想放的，搁置-->
+        </menu>
+    </item>
+
+</menu>

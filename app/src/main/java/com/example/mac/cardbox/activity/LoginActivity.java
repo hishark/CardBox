@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.bean.User;
+import com.example.mac.cardbox.util.Constant;
 import com.example.mac.cardbox.util.CurrentUserUtil;
 import com.example.mac.cardbox.util.NetworkUtil;
 import com.google.gson.Gson;
@@ -66,9 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private boolean isRemember;
-
-    //云服务器47.106.148.107
-    private String searchUserByAccountUrl = "http://192.168.137.1:8080/CardBox-Server/SearchUserByAccount";
+    private String searchUserByAccountUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/SearchUserByAccount";
     private static final String TAG = "LoginActivity";
     private static final int AccountIsExist_TAG = 1;
     private static final int AccountIsNotExist_TAG = 2;
@@ -99,13 +98,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 case AccountIsNotExist_TAG:
                     ShowAccountIsNotExistDialog();
                     break;
-                /*case AutoLogin_TAG:
-                    User AutoLoginUser = (User)msg.obj;
-                    CurrentUserUtil.setCurrentUser(AutoLoginUser);
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;*/
             }
         }
     };
@@ -117,18 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        /*sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        if(sharedPreferences.getBoolean("IsLogin",false) == true){
-            Log.d(TAG, "veriftLoginState: 这里出了点问题 没法启动活动");
-
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
-            Toast.makeText(this, "为啥跳转不了活动呢", Toast.LENGTH_SHORT).show();
-            finish();
-        }else{
-            Toast.makeText(this, "你还没登录啦", Toast.LENGTH_SHORT).show();
-        }*/
 
         //activity切换动画，放在这备用，登录注册界面由于要finish所以效果不太好，用到之后的activity里吧
         /*Slide slide1 = new Slide();
@@ -239,6 +220,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 Log.d(TAG, "verifyPassword: 存进sp啦！");
             }else{
+                editor.putBoolean("remember_password",false);
                 Log.d(TAG, "verifyPassword: 没选中checkbox哦");
                 editor.clear();
             }
@@ -278,7 +260,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 //execute the task
                 progressDialog.dismiss();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this,MainNavigationActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -426,63 +408,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DFA22E"));
     }
 
-    private void AutoLogin(String username) {
-        Log.d(TAG, "AutoLogin: 进来啦");
-        //开子线程访问服务器啦
-        //实例化OkHttpClient
-        OkHttpClient client = new OkHttpClient();
-        //创建表单请求体
-        FormBody.Builder formBody = new FormBody.Builder();
-        formBody.add("user_account", username);
-
-        //创建Request对象
-        Request request = new Request.Builder()
-                .url(searchUserByAccountUrl)
-                .post(formBody.build())
-                .build();
-
-        /**
-         * Get的异步请求，不需要跟同步请求一样开启子线程
-         * 但是回调方法还是在子线程中执行的
-         * 所以要用到Handler传数据回主线程更新UI
-         */
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-            }
-
-            //回调的方法执行在子线程
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String result = "";
-                if (response.isSuccessful()) {
-                    //从服务器取到Json键值对
-                    String temp = response.body().string();
-                    Log.d(TAG, "onResponse: temp:" + temp);
-                    try {
-                        JSONObject jsonObject = new JSONObject(temp);
-                        Message msg = new Message();
-
-                        //利用Gson解析User
-                        String userresult = jsonObject.get("SearchUser").toString();
-                        Gson gson = new Gson();
-                        User user = gson.fromJson(userresult, User.class);
-
-                        //通过handler传递数据到主线程
-                        msg.what = AutoLogin_TAG;
-                        msg.obj = user;
-                        handler.sendMessage(msg);
-
-
-                    } catch (JSONException a) {
-
-                    }
-                } else {
-
-                }
-
-
-            }
-        });
-    }
 }

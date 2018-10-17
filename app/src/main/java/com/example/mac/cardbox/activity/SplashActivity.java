@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.bean.User;
+import com.example.mac.cardbox.util.Constant;
 import com.example.mac.cardbox.util.CurrentUserUtil;
 import com.google.gson.Gson;
 
@@ -30,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final int GO_LOGIN = 1;//去登录页
     private static final String TAG = "SplashActivity";
-    private String searchUserByAccountUrl = "http://192.168.137.1:8080/CardBox-Server/SearchUserByAccount";
+    private String searchUserByAccountUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/SearchUserByAccount";
     private static final int AutoLogin_TAG = 2;
 
     /**
@@ -48,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
                 case AutoLogin_TAG:
                     User AutoLoginUser = (User)msg.obj;
                     CurrentUserUtil.setCurrentUser(AutoLoginUser);
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, MainNavigationActivity.class);
                     startActivity(intent);
                     finish();
                     break;
@@ -62,6 +63,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
+
 
         if (sp.getBoolean("IsLogin",false) == true)//自动登录判断，SharePrefences中有数据，则跳转到主页，没数据则跳转到登录页
         {

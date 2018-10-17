@@ -24,4 +24,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_main_navigation">卡片盒子</string>
 </resources>

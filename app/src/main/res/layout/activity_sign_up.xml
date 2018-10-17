@@ -40,7 +40,6 @@
                     android:drawableStart="@drawable/ic_username_32_yellow"
                     android:drawableLeft="@drawable/ic_username_32_yellow"
                     android:hint="请输入账号（英文+数字）"
-                    android:text="hishark"
                     android:inputType="text"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -62,7 +61,6 @@
                     android:drawableLeft="@drawable/ic_password_32_yellow"
                     android:drawableStart="@drawable/ic_password_32_yellow"
                     android:hint="请输入密码"
-                    android:text="777777"
                     android:inputType="textPassword"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -84,7 +82,6 @@
                     android:drawableLeft="@drawable/ic_assure_password_32_yellow"
                     android:drawableStart="@drawable/ic_assure_password_32_yellow"
                     android:hint="请确认密码"
-                    android:text="777777"
                     android:inputType="textPassword"/>
 
             </android.support.design.widget.TextInputLayout>
