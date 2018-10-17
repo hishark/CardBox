@@ -1,7 +1,7 @@
 package com.example.mac.cardbox.activity;
 
 import android.app.ActivityOptions;
-import android.app.AlertDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -26,6 +27,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,11 +68,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private static final int UserIsExist_TAG = 3;
     private static final int UserIsNotExist_TAG = 4;
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
-            switch (msg.what){
+            switch (msg.what) {
                 case User_Add_Success_TAG:
                     ShowSuccessDialog(msg.obj.toString());
                     break;
@@ -81,42 +83,45 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     };
 
+
     private void ShowUserIsExistDialog() {
-        et_signup_username.setError("用户名已存在");
+        et_signup_username.setError("账号已存在");
     }
 
-    private void ShowNoNetworkDialog(){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(SignUpActivity.this);
-        dialog.setTitle("提示信息");
-        dialog.setMessage("没有网哦~");
-        dialog.setCancelable(false);
-        dialog.setNegativeButton("好滴我去连个wifi", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+    private void ShowNoNetworkDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(SignUpActivity.this).setTitle("提示信息")
+                .setMessage("没有网哦o(≧口≦)o")
+                .setCancelable(false)
+                .setPositiveButton("好滴我去连个WIFI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+
         dialog.show();
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DFA22E"));
+
     }
 
     private void ShowSuccessDialog(String message) {
-        Log.d(TAG, "handleMessage: "+message);
+        Log.d(TAG, "handleMessage: " + message);
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(SignUpActivity.this);
-            dialog.setTitle("提示信息");
-            dialog.setMessage("注册成功！");
-            dialog.setCancelable(false);
-            dialog.setPositiveButton("前往登录", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(SignUpActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            dialog.create();
-            dialog.show();
-
+        AlertDialog dialog = new AlertDialog.Builder(SignUpActivity.this).setTitle("提示信息")
+                .setMessage("注册成功！")
+                .setCancelable(false)
+                .setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        intent.putExtra("userAccount",et_signup_username.getText().toString().trim());
+                        intent.putExtra("userPassword", et_sign_up_password.getText().toString().trim());
+                        startActivity(intent);
+                        finish();
+                    }
+                }).create();
+        dialog.show();
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DFA22E"));
     }
 
     @Override
@@ -153,15 +158,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * TODO：这里要去服务器的数据库里查询用户名是否已经存在，若存在就提示“用户名已存在”。
      */
-    private boolean usernameIsExist(String username) {
-        boolean flag = false;
+    private void assureUserAccountUnique(String username) {
 
         //开子线程访问服务器啦
         //实例化OkHttpClient
         OkHttpClient client = new OkHttpClient();
         //创建表单请求体
         FormBody.Builder formBody = new FormBody.Builder();
-        formBody.add("user_account",username);
+        formBody.add("user_account", username);
 
         //创建Request对象
         Request request = new Request.Builder()
@@ -183,28 +187,28 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = "";
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     //从服务器取到Json键值对
                     String temp = response.body().string();
-                    try{
-                        JSONObject jsonObject=new JSONObject(temp);
+                    try {
+                        JSONObject jsonObject = new JSONObject(temp);
                         int count = Integer.parseInt(jsonObject.get("SearchUserSum").toString());
-                        Log.d(TAG, "onResponse: "+count);
+                        Log.d(TAG, "onResponse: " + count);
                         //通过handler传递数据到主线程
                         Message msg = new Message();
 
-                        if(count==1){
+                        if (count == 1) {
                             msg.what = UserIsExist_TAG;
                             msg.obj = count;
                             handler.sendMessage(msg);
-                        }else{
+                        } else {
                             msg.what = UserIsNotExist_TAG;
                             handler.sendMessage(msg);
                         }
-                    }catch (JSONException a){
+                    } catch (JSONException a) {
 
                     }
-                }else{
+                } else {
 
                 }
 
@@ -212,13 +216,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        return flag;
     }
 
     /**
      * 错误处理
      */
-    private void handleError(){
+    private void handleError() {
         handleErrorForUsername();
         handleErrorForPassword();
         handleErrorForAssurePassword();
@@ -241,9 +244,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!et_sign_up_assure_password.getText().toString().trim().equals(et_sign_up_password.getText().toString().trim())) {
+                if (!et_sign_up_assure_password.getText().toString().trim().equals(et_sign_up_password.getText().toString().trim())) {
                     layout_sign_up_assure_password.setError("密码不匹配");
-                }else{
+                } else {
                     layout_sign_up_assure_password.setErrorEnabled(false);
                 }
             }
@@ -262,9 +265,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(et_sign_up_password.getText().length() < 6 ) {
+                if (et_sign_up_password.getText().length() < 6) {
                     layout_sign_up_password.setError("密码长度不能少于6位");
-                }else{
+                } else {
                     layout_sign_up_password.setErrorEnabled(false);
                 }
 
@@ -280,7 +283,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * 输入用户名的错误处理
      */
-    private void handleErrorForUsername(){
+    private void handleErrorForUsername() {
         final String username = et_signup_username.getText().toString().trim();
         et_signup_username.addTextChangedListener(new TextWatcher() {
             @Override
@@ -291,20 +294,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             //输入用户名的同时就进行判断处理
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(username.length() > layout_sign_up_username.getCounterMaxLength()) {
+                if (username.length() > layout_sign_up_username.getCounterMaxLength()) {
                     et_signup_username.setError("账号太长啦，短一点~");
                 }
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(username.length()==0){
+                if (username.length() == 0) {
                     et_signup_username.setError("账号不可为空");
-                }
-
-                if(usernameIsExist(username)==true){
-                    et_signup_username.setError("账号已存在");
                 }
             }
         });
@@ -328,7 +326,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.pretend_Button_signup:
                 ClickToSignUp();
                 break;
@@ -338,7 +336,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void ClickToSignUp() {
-        boolean usernamsIsOK = false;
+        boolean usernameIsOK = false;
         boolean passwordIsOk = false;
         boolean assurepasswordIsOK = false;
 
@@ -346,41 +344,43 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String password = et_sign_up_password.getText().toString().trim();
         String assure_password = et_sign_up_assure_password.getText().toString().trim();
 
+        assureUserAccountUnique(username);
+
         //用户名
-        if(username.length()==0){
+        if (username.length() == 0) {
             et_signup_username.setError("账号不可为空");
-        }else if(username.length() > layout_sign_up_username.getCounterMaxLength()) {
+        } else if (username.length() > layout_sign_up_username.getCounterMaxLength()) {
             et_signup_username.setError("账号太长啦，短一点~");
-        }else if(usernameIsExist(username)==true){
+        }/*else if(usernameIsExist(username)==true){
             et_signup_username.setError("账号已存在");
-        }else if(onlyCharAndNum(username)==false) {
+        }*/ else if (onlyCharAndNum(username) == false) {
             et_signup_username.setError("账号只允许含有英文和数字");
-        }else{
-            usernamsIsOK = true;
+        } else {
+            usernameIsOK = true;
         }
 
         //输入密码
-        if(password.length() < 6 ) {
+        if (password.length() < 6) {
             layout_sign_up_password.setError("密码长度不能少于6位");
-        }else{
+        } else {
             layout_sign_up_password.setErrorEnabled(false);
             passwordIsOk = true;
         }
 
         //确认密码
-        if(!assure_password.equals(password)) {
+        if (!assure_password.equals(password)) {
             layout_sign_up_assure_password.setError("密码不匹配");
-        }else{
+        } else {
             layout_sign_up_assure_password.setErrorEnabled(false);
             assurepasswordIsOK = true;
         }
 
         //如果一切都没有毛病，就注册成功啦
-        if(usernamsIsOK && passwordIsOk && assurepasswordIsOK) {
+        if (usernameIsOK && passwordIsOk && assurepasswordIsOK) {
             //TODO：往数据库的用户表里添加一条数据！并转个圈圈等待2s
             Log.d(TAG, "ClickToSignUp: 到这啦！");
             //添加到数据库
-            addNewUserToMySQL(username,password);
+            addNewUserToMySQL(username, password);
 
             //Intent intent = new Intent(SignUpActivity.this,LoginActivity.class);
             //startActivity(intent);
@@ -393,10 +393,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         boolean flag = true;
         int length = username.length();
         char c[] = username.toCharArray();
-        for(int i=0;i<length;i++){
-            if(c[i]>='0'&&c[i]<='9'||c[i]>='a'&&c[i]<='z'||c[i]>='A'&&c[i]<='Z'){
+        for (int i = 0; i < length; i++) {
+            if (c[i] >= '0' && c[i] <= '9' || c[i] >= 'a' && c[i] <= 'z' || c[i] >= 'A' && c[i] <= 'Z') {
                 continue;
-            }else{
+            } else {
                 flag = false;
                 break;
             }
@@ -410,8 +410,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         OkHttpClient client = new OkHttpClient();
         //创建表单请求体
         FormBody.Builder formBody = new FormBody.Builder();
-        formBody.add("user_account",userAccount);
-        formBody.add("user_password",userPassword);
+        formBody.add("user_account", userAccount);
+        formBody.add("user_password", userPassword);
 
         //创建Request对象
         Request request = new Request.Builder()
@@ -419,13 +419,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 .post(formBody.build())
                 .build();
 
-        if (NetworkUtil.isNetworkAvailable(getApplicationContext())==false){
+        if (NetworkUtil.isNetworkAvailable(getApplicationContext()) == false) {
             Log.d(TAG, "addNewUserToMySQL: 没有网哦");
             ShowNoNetworkDialog();
-        }else{
+        } else {
             Log.d(TAG, "addNewUserToMySQL: 有网有网");
         }
-        
+
         /**
          * Get的异步请求，不需要跟同步请求一样开启子线程
          * 但是回调方法还是在子线程中执行的
@@ -440,22 +440,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = "";
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     //从服务器取到Json键值对
                     String temp = response.body().string();
-                    try{
-                        JSONObject jsonObject=new JSONObject(temp);
+                    try {
+                        JSONObject jsonObject = new JSONObject(temp);
                         result = jsonObject.get("UserAddSignal").toString();
-                        Log.d(TAG, "onResponse: "+result);
+                        Log.d(TAG, "onResponse: " + result);
                         //通过handler传递数据到主线程
                         Message msg = new Message();
                         msg.what = User_Add_Success_TAG;
                         msg.obj = result;
                         handler.sendMessage(msg);
-                    }catch (JSONException a){
+                    } catch (JSONException a) {
 
                     }
-                }else{
+                } else {
 
                 }
 

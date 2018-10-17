@@ -3,13 +3,17 @@ package com.example.mac.cardbox.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.mac.cardbox.R;
+import com.example.mac.cardbox.util.CurrentUserUtil;
 
 public class MainActivity extends AppCompatActivity {
+
+    private long LastClickTime;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,8 +35,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK) {
+            //距离上次按返回键如果超过2000ms就认为是误操作，toast提醒一下，并更新LastClickTime
+            if((System.currentTimeMillis() - LastClickTime) > 2000) {
+                Toast.makeText(this, "再按一次“返回”退出应用程序", Toast.LENGTH_SHORT).show();
+                LastClickTime = System.currentTimeMillis();
+            }else{
+                //退出程序
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String test = CurrentUserUtil.getCurrentUser().getUser_account().toString().trim();
+        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
     }
 }
