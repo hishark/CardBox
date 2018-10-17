@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "LoginActivity";
     private static final int AccountIsExist_TAG = 1;
     private static final int AccountIsNotExist_TAG = 2;
+    private static final int AutoLogin_TAG = 3;
 
     //存放上一次点击手机返回键的时间
     private long LastClickTime;
@@ -85,12 +86,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     CurrentUserUtil.setCurrentUser(user);
                     editor.putBoolean("IsLogin",true);
                     editor.apply();
-                    Log.d(TAG, "handleMessage: 得到user啦");
+
+                    if(sharedPreferences.getBoolean("IsLogin",false)==true){
+                        Log.d(TAG, "handleMessage: IsLogin = true");
+                    }else{
+                        Log.d(TAG, "handleMessage: IsLogin = false");
+                    }
+
+                    Log.d(TAG, "handleMessage: 得到user啦"+user.getUser_account());
                     verifyPassword(user);
                     break;
                 case AccountIsNotExist_TAG:
                     ShowAccountIsNotExistDialog();
                     break;
+                /*case AutoLogin_TAG:
+                    User AutoLoginUser = (User)msg.obj;
+                    CurrentUserUtil.setCurrentUser(AutoLoginUser);
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;*/
             }
         }
     };
@@ -101,6 +116,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        /*sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        if(sharedPreferences.getBoolean("IsLogin",false) == true){
+            Log.d(TAG, "veriftLoginState: 这里出了点问题 没法启动活动");
+
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "为啥跳转不了活动呢", Toast.LENGTH_SHORT).show();
+            finish();
+        }else{
+            Toast.makeText(this, "你还没登录啦", Toast.LENGTH_SHORT).show();
+        }*/
 
         //activity切换动画，放在这备用，登录注册界面由于要finish所以效果不太好，用到之后的activity里吧
         /*Slide slide1 = new Slide();
@@ -113,7 +141,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         slide2.setDuration(100);
         getWindow().setExitTransition(slide2);*/
 
-        setContentView(R.layout.activity_login);
+
 
         //初始化
         initView();
@@ -132,10 +160,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //隐藏标题栏
         getSupportActionBar().hide();
-
-
-        //拿出IsLogin出来判断一下，如果是true就自动登录跳转到MainActivity，如果false就停留在当前界面
-        veriftLoginState();
 
 
         /**
@@ -163,17 +187,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         pretend_button_login.setOnClickListener(this);
     }
 
-    //拿出IsLogin出来判断一下，如果是true就自动登录跳转到MainActivity，如果false就停留在当前界面
-    private void veriftLoginState() {
-        if(sharedPreferences.getBoolean("IsLogin",false) == true){
-            Log.d(TAG, "veriftLoginState: 这里出了点问题 没法启动活动");
-            Intent intent  = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-        }else{
-            Toast.makeText(this, "你还没登录啦", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -205,7 +218,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             et_login_username.setText(account);
             et_login_password.setText(password);
             cb_rememberPassword.setChecked(true);
-            //Log.d(TAG, "GetUserStateFromSharedPre: 我进来了呀！");
+            Log.d(TAG, "GetUserStateFromSharedPre: 我进来了呀！");
+
+
+
         }else{
             Log.d(TAG, "GetUserStateFromSharedPre: 为啥没记住呢");
         }
@@ -328,9 +344,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Log.d(TAG, "addNewUserToMySQL: 有网有网");
             verifyAccountIfExist(username);
         }
-
-
-
     }
 
     private void verifyAccountIfExist(String username){
@@ -411,5 +424,65 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         dialog.show();
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DFA22E"));
+    }
+
+    private void AutoLogin(String username) {
+        Log.d(TAG, "AutoLogin: 进来啦");
+        //开子线程访问服务器啦
+        //实例化OkHttpClient
+        OkHttpClient client = new OkHttpClient();
+        //创建表单请求体
+        FormBody.Builder formBody = new FormBody.Builder();
+        formBody.add("user_account", username);
+
+        //创建Request对象
+        Request request = new Request.Builder()
+                .url(searchUserByAccountUrl)
+                .post(formBody.build())
+                .build();
+
+        /**
+         * Get的异步请求，不需要跟同步请求一样开启子线程
+         * 但是回调方法还是在子线程中执行的
+         * 所以要用到Handler传数据回主线程更新UI
+         */
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            //回调的方法执行在子线程
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = "";
+                if (response.isSuccessful()) {
+                    //从服务器取到Json键值对
+                    String temp = response.body().string();
+                    Log.d(TAG, "onResponse: temp:" + temp);
+                    try {
+                        JSONObject jsonObject = new JSONObject(temp);
+                        Message msg = new Message();
+
+                        //利用Gson解析User
+                        String userresult = jsonObject.get("SearchUser").toString();
+                        Gson gson = new Gson();
+                        User user = gson.fromJson(userresult, User.class);
+
+                        //通过handler传递数据到主线程
+                        msg.what = AutoLogin_TAG;
+                        msg.obj = user;
+                        handler.sendMessage(msg);
+
+
+                    } catch (JSONException a) {
+
+                    }
+                } else {
+
+                }
+
+
+            }
+        });
     }
 }
