@@ -34,7 +34,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private long LastClickTime;
-    private String searchUserByAccountUrl = "http://" + Constant.Local_Server_IP + ":8080/CardBox-Server/SearchUserByAccount";
+    private String searchUserByAccountUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/SearchUserByAccount";
     private static final String TAG = "MainActivity";
     private static final int AutoLogin_TAG = 1;
     private SharedPreferences sharedPreferences;

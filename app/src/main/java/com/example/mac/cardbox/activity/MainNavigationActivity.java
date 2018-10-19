@@ -41,6 +41,9 @@ import com.bumptech.glide.Glide;
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.bean.User;
 import com.example.mac.cardbox.fragment.MyCardBoxFragment;
+import com.example.mac.cardbox.fragment.SearchBoxFragment;
+import com.example.mac.cardbox.fragment.SearchBoxerFragment;
+import com.example.mac.cardbox.fragment.SearchFragment;
 import com.example.mac.cardbox.util.Constant;
 import com.example.mac.cardbox.util.CurrentUserUtil;
 import com.example.mac.cardbox.util.qiniuyun.Auth;
@@ -70,9 +73,9 @@ public class MainNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private long LastClickTime;
-    private static String searchUserByAccountUrl = "http://" + Constant.Local_Server_IP + ":8080/CardBox-Server/SearchUserByAccount";
-    private static String updateAvatarUrl="http://" + Constant.Local_Server_IP + ":8080/CardBox-Server/updateUserAvatar";
-    private static String updateNicknameUrl="http://" + Constant.Local_Server_IP + ":8080/CardBox-Server/updateUserNickname";
+    private static String searchUserByAccountUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/SearchUserByAccount";
+    private static String updateAvatarUrl="http://" + Constant.Server_IP + ":8080/CardBox-Server/updateUserAvatar";
+    private static String updateNicknameUrl="http://" + Constant.Server_IP + ":8080/CardBox-Server/updateUserNickname";
     
     private static final String TAG = "MainNavigationActivity";
     private SharedPreferences sharedPreferences;
@@ -91,6 +94,7 @@ public class MainNavigationActivity extends AppCompatActivity
     private CircleImageView img_nav_userAvatar;
 
     private MyCardBoxFragment myCardBoxFragment;
+    private SearchFragment searchFragment;
 
     Handler handler = new Handler() {
         @Override
@@ -119,14 +123,14 @@ public class MainNavigationActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //悬浮按钮
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         //抽屉
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -233,6 +237,7 @@ public class MainNavigationActivity extends AppCompatActivity
         editor = sharedPreferences.edit();
 
         myCardBoxFragment = new MyCardBoxFragment();
+        searchFragment = new SearchFragment();
     }
 
     /**
@@ -569,11 +574,13 @@ public class MainNavigationActivity extends AppCompatActivity
         if (id == R.id.nav_logout) {
             Log_Out();
         } else if (id == R.id.nav_mycardbox) {
-
+            myCardBoxFragment = new MyCardBoxFragment();
+            replaceFragment(myCardBoxFragment);
         } else if (id == R.id.nav_mylove) {
 
         } else if (id == R.id.nav_search) {
-
+            searchFragment = new SearchFragment();
+            replaceFragment(searchFragment);
         } else if (id == R.id.nav_notification) {
 
         } else if (id == R.id.nav_about) {

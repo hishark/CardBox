@@ -31,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final int GO_LOGIN = 1;//去登录页
     private static final String TAG = "SplashActivity";
-    private String searchUserByAccountUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/SearchUserByAccount";
+    private String searchUserByAccountUrl = "http://"+ Constant.Server_IP +":8080/CardBox-Server/SearchUserByAccount";
     private static final int AutoLogin_TAG = 2;
 
     /**

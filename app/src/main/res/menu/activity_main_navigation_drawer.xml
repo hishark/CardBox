@@ -15,7 +15,7 @@
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_nav_search_32_yellow_02"
-            android:title="搜索" />
+            android:title="搜索盒友" />
         <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/ic_nav_info_32_yellow_01"

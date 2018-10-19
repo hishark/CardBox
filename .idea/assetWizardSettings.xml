@@ -20,9 +20,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="height" value="32" />
-                            <entry key="outputName" value="ic_nav_search_32_yellow_02" />
+                            <entry key="outputName" value="ic_box_item_32_02" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\nav_search_32_yellow_02.svg" />
+                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\box_item_32_02.svg" />
                             <entry key="width" value="32" />
                           </map>
                         </option>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:gravity="center">
+
+
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/img_searchBox_boxitem"
+            android:src="@drawable/ic_box_item_32_02"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/avatar1"
+            android:layout_gravity="right|bottom"/>
+
+
+
+    </FrameLayout>
+
+
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/tv_searchBox_boxitem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="高等数学"/>
+
+</LinearLayout>

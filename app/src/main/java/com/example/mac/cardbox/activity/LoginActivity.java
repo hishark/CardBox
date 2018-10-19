@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private boolean isRemember;
-    private String searchUserByAccountUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/SearchUserByAccount";
+    private String searchUserByAccountUrl = "http://"+ Constant.Server_IP +":8080/CardBox-Server/SearchUserByAccount";
     private static final String TAG = "LoginActivity";
     private static final int AccountIsExist_TAG = 1;
     private static final int AccountIsNotExist_TAG = 2;

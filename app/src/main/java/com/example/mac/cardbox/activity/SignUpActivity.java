@@ -59,9 +59,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private TextInputLayout layout_sign_up_username;
     private TextInputLayout layout_sign_up_password;
     private TextInputLayout layout_sign_up_assure_password;
-    private String getAllUserUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/User_GetAll";
-    private String insertUserUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/Add_User";
-    private String searchUserByAccountUrl = "http://"+ Constant.Local_Server_IP +":8080/CardBox-Server/SearchUserByAccount";
+    private String getAllUserUrl = "http://"+ Constant.Server_IP +":8080/CardBox-Server/User_GetAll";
+    private String insertUserUrl = "http://"+ Constant.Server_IP +":8080/CardBox-Server/Add_User";
+    private String searchUserByAccountUrl = "http://"+ Constant.Server_IP +":8080/CardBox-Server/SearchUserByAccount";
 
     private static final String TAG = "SignUpActivity";
     private static final int User_Add_Success_TAG = 1;
