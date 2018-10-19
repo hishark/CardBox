@@ -22,14 +22,13 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/nav_avatar"
-        android:src="@drawable/avatar1"
+        android:id="@+id/nav_Useravatar"
         app:civ_border_color="@color/colorWhite"
         app:civ_border_width="2dp"/>
 
     <TextView
         android:id="@+id/nav_UserNickName"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="777"
@@ -37,7 +36,7 @@
 
     <TextView
         android:id="@+id/nav_UserAccount"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="hishark" />
 

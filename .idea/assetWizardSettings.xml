@@ -19,11 +19,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="128" />
-                            <entry key="outputName" value="ic_logo_bear" />
+                            <entry key="height" value="32" />
+                            <entry key="outputName" value="ic_nav_search_32_yellow_02" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\logo_bear.svg" />
-                            <entry key="width" value="128" />
+                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\nav_search_32_yellow_02.svg" />
+                            <entry key="width" value="32" />
                           </map>
                         </option>
                       </PersistentState>

@@ -136,8 +136,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_login_username.setText(signup_username);
         et_login_password.setText(signup_password);
 
-        //看看有没有存好的用户信息
-        GetUserStateFromSharedPre();
+
+        //如果不是从注册页过来的，就直接从sp中取用户信息
+        if(signup_username==null){
+            //看看有没有存好的用户信息
+            GetUserStateFromSharedPre();
+        }
+
 
         //隐藏标题栏
         getSupportActionBar().hide();

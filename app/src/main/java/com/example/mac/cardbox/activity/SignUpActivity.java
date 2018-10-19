@@ -303,7 +303,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * 输入用户名的错误处理
      */
     private void handleErrorForUsername() {
-        final String username = et_signup_username.getText().toString().trim();
+
         et_signup_username.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -313,6 +313,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             //输入用户名的同时就进行判断处理
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String username = et_signup_username.getText().toString().trim();
                 if (username.length() > layout_sign_up_username.getCounterMaxLength()) {
                     et_signup_username.setError("账号太长啦，短一点~");
                 }
@@ -320,7 +321,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void afterTextChanged(Editable s) {
+                String username = et_signup_username.getText().toString().trim();
+
                 if (username.length() == 0) {
+                    Log.d(TAG, "afterTextChanged: amazing,what");
                     et_signup_username.setError("账号不可为空");
                 }
             }
