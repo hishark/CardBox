@@ -100,6 +100,7 @@ public class SearchBoxFragment extends Fragment {
                 case SearchSuccess_TAG:
                     List<HashMap<String, Object>> list = (List<HashMap<String, Object>>)msg.obj;
                     showAllSearchBox(changeHashMapToBox(list));
+                    Log.d(TAG, "handleMessage: hello");
                     break;
             }
         }
