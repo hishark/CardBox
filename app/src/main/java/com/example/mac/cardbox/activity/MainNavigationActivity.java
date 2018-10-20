@@ -158,6 +158,7 @@ public class MainNavigationActivity extends AppCompatActivity
         img_nav_userAvatar = (CircleImageView)headerView.findViewById(R.id.nav_Useravatar);
         tv_nav_userAccount.setText(CurrentUserUtil.getCurrentUser().getUser_account());
         tv_nav_userNickname.setText(CurrentUserUtil.getCurrentUser().getUser_nickname());
+        Log.d(TAG, "onCreate: "+CurrentUserUtil.getCurrentUser().getUser_avatar());
         Glide.with(getApplicationContext()).load(CurrentUserUtil.getCurrentUser().getUser_avatar()).into(img_nav_userAvatar);
 
         //点击头像

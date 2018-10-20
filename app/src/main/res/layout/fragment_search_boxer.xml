@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.SearchBoxerFragment">
 
     <LinearLayout
@@ -13,41 +13,86 @@
 
 
         <android.support.v7.widget.CardView
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardCornerRadius="8dp"
-            android:elevation="5dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:elevation="5dp"
+            app:cardCornerRadius="8dp">
 
             <LinearLayout
-                android:padding="10dp"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <EditText
-                    android:background="@null"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
+                <Spinner
+                    android:id="@+id/spinner_searchBoxer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_nav_search_32_yellow_01"/>
+                    android:entries="@array/search_boxer"
+                    android:spinnerMode="dialog">
+
+
+                </Spinner>
+
+                <EditText
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:id="@+id/et_searchBoxer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null" />
+
+                <ImageView
+                    android:id="@+id/img_searchBoxer_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_nav_search_32_yellow_01" />
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_gravity="center"
-            android:id="@+id/recyclerView_searchBoxer"
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorWhite"
+            android:elevation="5dp"
+            app:cardCornerRadius="8dp">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_searchBoxer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/tv_searchBoxer_warnInfo"
+                    android:visibility="invisible"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="没有这个人噢~(っ °Д °;)っ"/>
+
+
+            </FrameLayout>
+
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
