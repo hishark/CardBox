@@ -19,11 +19,10 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="32" />
-                            <entry key="outputName" value="ic_box_item_32_02" />
+                            <entry key="outputName" value="ic_nav_share_24_white_01" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\box_item_32_02.svg" />
-                            <entry key="width" value="32" />
+                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\nav_share_24_white_01.svg" />
+                            <entry key="width" value="26" />
                           </map>
                         </option>
                       </PersistentState>

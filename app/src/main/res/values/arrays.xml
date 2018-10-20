@@ -4,4 +4,10 @@
         <item>昵称</item>
         <item>账号</item>
     </string-array>
+
+    <string-array name="search_box">
+        <item>所有</item>
+        <item>学习</item>
+        <item>生活</item>
+    </string-array>
 </resources>

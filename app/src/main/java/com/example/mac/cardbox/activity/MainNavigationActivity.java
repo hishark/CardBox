@@ -522,25 +522,9 @@ public class MainNavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.DotNavigation_logout) {
-            //TODO:这个就是放在这测试的，没卵用，以后删掉
-            Toast.makeText(this, "You clicked to log out!", Toast.LENGTH_SHORT).show();
-            User user = new User();
-            CurrentUserUtil.setCurrentUser(user);
-
-            editor.putBoolean("IsLogin",false);
-            editor.apply();
-
-            if(sharedPreferences.getBoolean("IsLogin",false)==true){
-                Log.d(TAG, "handleMessage: IsLogin = true");
-            }else{
-                Log.d(TAG, "handleMessage: IsLogin = false");
-            }
-
-            Intent intent = new Intent(MainNavigationActivity.this,LoginActivity.class);
-            startActivity(intent);
-            finish();
-
+        if (id == R.id.DotNavigation_share) {
+            //TODO:分享app给别人
+            Toast.makeText(this, "分享应用~", Toast.LENGTH_SHORT).show();
             return true;
         }
 
