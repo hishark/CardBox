@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +31,13 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View myboxView;
+        ImageView box_icon;
         TextView box_textView;
         CircleImageView box_Authority;
         public ViewHolder(View view) {
             super(view);
             myboxView = view;
+            box_icon = view.findViewById(R.id.img_Box_icon);
             box_textView = (TextView)view.findViewById(R.id.tv_myBox_boxName);
             box_Authority = (CircleImageView)view.findViewById(R.id.img_myBox_If_Public);
         }
@@ -50,18 +53,30 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.mybox_item, viewGroup, false);
         final ViewHolder holder = new ViewHolder(view);
-        //点击盒子就进入盒子详情页面
-        holder.myboxView.setOnClickListener(new View.OnClickListener() {
+        //点击盒子图标或者盒子名字就进入盒子详情页面
+        holder.box_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 Box box = mBoxList.get(position);
-                Toast.makeText(mContext, box.getBox_name(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, box.getBox_type(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, BoxDetailActivity.class);
                 intent.putExtra("Box",mBoxList.get(position));
                 mContext.startActivity(intent);
             }
         });
+
+        holder.box_textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                Box box = mBoxList.get(position);
+                Intent intent = new Intent(mContext, BoxDetailActivity.class);
+                intent.putExtra("Box",mBoxList.get(position));
+                mContext.startActivity(intent);
+            }
+        });
+
         return holder;
     }
 

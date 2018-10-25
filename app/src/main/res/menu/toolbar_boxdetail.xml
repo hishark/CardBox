@@ -4,11 +4,16 @@
     <item
         android:id="@+id/menu_boxdetail_edit"
         android:title="编辑"
-        android:icon="@drawable/ic_boxdetail_edit_white_01"
-        app:showAsAction="always"/>
+        android:icon="@drawable/ic_boxdetail_edit_white_05"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_boxdetail_card"
         android:title="浏览卡片"
-        android:icon="@drawable/ic_boxdetail_card_white_01"
-        app:showAsAction="always"/>
+        android:icon="@drawable/ic_box_card_01"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_boxdetail_delete"
+        android:title="删除卡盒"
+        android:icon="@drawable/ic_box_trash_02"
+        app:showAsAction="ifRoom"/>
 </menu>

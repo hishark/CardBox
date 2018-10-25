@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="@color/colorPrimary"
     tools:context=".activity.AddOneSideBoxActivity">
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/addOneSideBox_appBarLayout"
         android:layout_width="match_parent"
@@ -21,7 +20,6 @@
             android:background="?attr/colorPrimary"
             app:contentInsetStart="15dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
-
 
         </android.support.v7.widget.Toolbar>
 

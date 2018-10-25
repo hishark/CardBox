@@ -10,9 +10,18 @@ public class Box implements Serializable {
     String box_type;
     int box_love;
     Timestamp box_create_time;
+    Timestamp box_update_time;
     String box_side;
     String box_authority;
     int box_cardnum;
+
+    public Timestamp getBox_update_time() {
+        return box_update_time;
+    }
+
+    public void setBox_update_time(Timestamp box_update_time) {
+        this.box_update_time = box_update_time;
+    }
 
     public int getBox_cardnum() {
         return box_cardnum;

@@ -160,6 +160,7 @@ public class AddOneSideBoxActivity extends AppCompatActivity implements  View.On
                 .add("user_account", CurrentUserUtil.getCurrentUser().getUser_account())
                 .add("box_type",rb_boxtype.getText().toString())
                 .add("box_create_time",String.valueOf(System.currentTimeMillis()))
+                .add("box_update_time",String.valueOf(System.currentTimeMillis()))
                 .add("box_side",et_BoxSide.getHint().toString())
                 .add("box_authority",ifPublic)
                 .build();

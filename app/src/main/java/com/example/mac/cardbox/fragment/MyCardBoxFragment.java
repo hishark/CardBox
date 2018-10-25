@@ -136,7 +136,7 @@ public class MyCardBoxFragment extends Fragment {
             box.setBox_id(HashMaplist.get(i).get("box_id").toString());
             box.setBox_love((Integer) HashMaplist.get(i).get("box_love"));
             box.setBox_side(HashMaplist.get(i).get("box_side").toString());
-            box.setBox_type(HashMaplist.get(i).get("box_side").toString());
+            box.setBox_type(HashMaplist.get(i).get("box_type").toString());
             box.setBox_authority(HashMaplist.get(i).get("box_authority").toString());
             box.setUser((User)HashMaplist.get(i).get("user"));
             box.setBox_cardnum((Integer) HashMaplist.get(i).get("box_cardnum"));

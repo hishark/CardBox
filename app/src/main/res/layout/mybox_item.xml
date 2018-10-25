@@ -13,6 +13,7 @@
         android:layout_height="100dp">
 
         <ImageView
+            android:id="@+id/img_Box_icon"
             android:layout_gravity="center"
             android:src="@drawable/box_item_32_07"
             android:layout_width="80dp"
