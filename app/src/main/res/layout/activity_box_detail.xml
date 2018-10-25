@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.BoxDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_boxDetail"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:contentInsetStart="15dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageButton
+                android:id="@+id/fake_button_boxdetail_back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ic_return_01" />
+
+            <TextView
+                android:id="@+id/tv_boxdetail_boxname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:text="盒子详情"
+                android:textColor="@color/colorWhite"
+                android:textSize="21sp" />
+
+            <ImageButton
+                android:layout_gravity="right"
+                android:visibility="visible"
+                android:layout_marginRight="10dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ic_boxdetail_card_white_04"/>
+
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+</android.support.constraint.ConstraintLayout>

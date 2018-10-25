@@ -5,4 +5,6 @@
     <color name="colorAccent">#999494</color>
     <color name="colorWhite">#ffffff</color>
     <!--玫红色 存一下 <color name="colorAccent">#D81B60</color>-->
+    <color name="black_semi_transparent">#b2352e2e</color>
+    <color name="text">#FFFFFF</color>
 </resources>

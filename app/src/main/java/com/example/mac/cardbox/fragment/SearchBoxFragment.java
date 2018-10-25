@@ -10,9 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -62,7 +64,9 @@ public class SearchBoxFragment extends Fragment {
     private static final String searchBoxByTypeUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/SearchBoxByType";
     private static final int SEARCH_BY_ALLTYPE = 0;
     private static final int SEARCH_BY_STUDY = 1;
-    private static final int SEARCH_BY_LIFE = 2;
+    private static final int SEARCH_BY_WORK = 2;
+    private static final int SEARCH_BY_LIFE = 3;
+    private static final int SEARCH_BY_ENTERTAINMENT = 4;
     private static final int SearchSuccess_TAG = 8;
     private static final String TAG = "SearchBoxFragment";
 
@@ -71,7 +75,7 @@ public class SearchBoxFragment extends Fragment {
     private List<HashMap<String, Object>> boxlist=null;
     private HashMap<String, Object> box=null;
     private String types[] = new String[]{
-            "所有","学习","生活"
+            "所有","学习","工作","生活","娱乐"
     };
 
     private List<Box> changeHashMapToBox(List<HashMap<String, Object>> HashMaplist) {
@@ -86,6 +90,7 @@ public class SearchBoxFragment extends Fragment {
             box.setBox_side(HashMaplist.get(i).get("box_side").toString());
             box.setBox_type(HashMaplist.get(i).get("box_side").toString());
             box.setUser((User)HashMaplist.get(i).get("user"));
+            box.setBox_cardnum((Integer)HashMaplist.get(i).get("box_cardnum"));
 
             boxList.add(box);
         }
@@ -116,6 +121,30 @@ public class SearchBoxFragment extends Fragment {
 
         //通过关键词搜索用户
         searchUserByKeyword();
+
+
+        et_searchBox.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+
+                if (keyCode == EditorInfo.IME_ACTION_SEND
+                        || keyCode == EditorInfo.IME_ACTION_DONE
+                        || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
+                    //处理事件
+                    //点击搜索时判断搜索类型
+                    if(!et_searchBox.getText().toString().trim().equals("")) {
+                        search_box_name = et_searchBox.getText().toString().trim();
+                        ConnectServerToSearch(search_box_name,searchType);
+                    }else {
+                        List<Box> boxList = new ArrayList<Box>();
+                        showAllSearchBox(boxList);
+                    }
+                }
+                return false;
+            }
+        });
+
 
         return view;
     }
@@ -161,6 +190,12 @@ public class SearchBoxFragment extends Fragment {
                         break;
                     case SEARCH_BY_LIFE:
                         searchType = SEARCH_BY_LIFE;
+                        break;
+                    case SEARCH_BY_ENTERTAINMENT:
+                        searchType = SEARCH_BY_ENTERTAINMENT;
+                        break;
+                    case SEARCH_BY_WORK:
+                        searchType = SEARCH_BY_WORK;
                         break;
                 }
             }
@@ -235,6 +270,8 @@ public class SearchBoxFragment extends Fragment {
                             box.put("box_type", jsonObject.get("box_type"));
                             box.put("box_love", jsonObject.get("box_love"));
                             box.put("box_side", jsonObject.get("box_side"));
+                            box.put("box_authority", jsonObject.get("box_authority"));
+                            box.put("box_cardnum", jsonObject.get("box_cardnum"));
 
                             /**
                              * 拿到了User的json数据
@@ -267,7 +304,6 @@ public class SearchBoxFragment extends Fragment {
 
                             boxlist.add(box);
                         }
-
 
                     }catch (JSONException a){
 

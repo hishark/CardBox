@@ -8,6 +8,15 @@
     <string-array name="search_box">
         <item>所有</item>
         <item>学习</item>
+        <item>工作</item>
         <item>生活</item>
+        <item>娱乐</item>
+    </string-array>
+
+    <string-array name="box_type">
+        <item>学习</item>
+        <item>工作</item>
+        <item>生活</item>
+        <item>娱乐</item>
     </string-array>
 </resources>

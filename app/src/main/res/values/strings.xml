@@ -28,4 +28,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_add_one_side_box">AddOneSideBoxActivity</string>
+    <string name="title_activity_add_one_side_box2">AddOneSideBox2Activity</string>
+    <string name="title_activity_edit_user_profile">EditUserProfileActivity</string>
 </resources>

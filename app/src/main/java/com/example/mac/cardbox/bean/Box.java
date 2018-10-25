@@ -10,7 +10,24 @@ public class Box {
     int box_love;
     Timestamp box_create_time;
     String box_side;
+    String box_authority;
+    int box_cardnum;
 
+    public int getBox_cardnum() {
+        return box_cardnum;
+    }
+
+    public void setBox_cardnum(int box_cardnum) {
+        this.box_cardnum = box_cardnum;
+    }
+
+    public String getBox_authority() {
+        return box_authority;
+    }
+
+    public void setBox_authority(String box_authority) {
+        this.box_authority = box_authority;
+    }
 
     public Timestamp getBox_create_time() {
         return box_create_time;

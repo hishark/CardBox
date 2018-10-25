@@ -1,13 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".fragment.MyCardBoxFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ll_UserBriefInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/framelayout_avatarArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_mybox_user_avatar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/avatar1"
+                    app:civ_border_color="@color/colorWhite"
+                    app:civ_border_width="2dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:src="@drawable/ic_edit_user_profile_03" />
+
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_mybox_user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="喂鲨鱼哟"
+                android:textColor="#3d3939" />
+
+            <TextView
+                android:id="@+id/tv_mybox_user_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hishark" />
+
+
+        </LinearLayout>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="8dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_mybox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+
+    <!--悬浮按钮，全部搞好了的，临时换设计方案，这个放在这待用-->
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fab_menu_addBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="5dp"
+        app:layout_behavior="com.example.mac.cardbox.behavior.ScrollAwareFABBehavior"
+        fab:fab_addButtonColorNormal="@color/colorPrimary"
+        fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
+        fab:fab_icon="@drawable/ic_add_white_24dp"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_button_addBox_oneSide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_icon="@drawable/ic_fab_add_oneside_white_03"
+            fab:fab_size="mini"
+            fab:fab_title="创建单面卡盒" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_button_addBox_twoSide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_icon="@drawable/ic_fab_add_twoside_white_02"
+            fab:fab_size="mini"
+            fab:fab_title="创建双面卡盒" />
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+</android.support.design.widget.CoordinatorLayout>
