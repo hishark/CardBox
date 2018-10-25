@@ -22,19 +22,6 @@
             app:contentInsetStart="15dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageButton
-                android:id="@+id/button_addTwoSideBox_back"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_return_01" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:text="添加盒子"
-                android:textColor="@color/colorWhite"
-                android:textSize="21sp" />
 
         </android.support.v7.widget.Toolbar>
 

@@ -14,25 +14,13 @@
         android:theme="@style/AppTheme.AppBarOverlayNoElevation">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_edituserinfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:contentInsetStart="15dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageButton
-                android:id="@+id/bt_editUserInfo_back"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_return_01" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:text="编辑资料"
-                android:textColor="@color/colorWhite"
-                android:textSize="21sp" />
 
         </android.support.v7.widget.Toolbar>
 

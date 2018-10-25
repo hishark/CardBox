@@ -1,6 +1,8 @@
 package com.example.mac.cardbox.bean;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     String user_account;
     String user_password;
     String user_nickname;

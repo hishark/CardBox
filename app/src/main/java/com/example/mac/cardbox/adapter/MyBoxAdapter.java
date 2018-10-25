@@ -58,6 +58,7 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
                 Box box = mBoxList.get(position);
                 Toast.makeText(mContext, box.getBox_name(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, BoxDetailActivity.class);
+                intent.putExtra("Box",mBoxList.get(position));
                 mContext.startActivity(intent);
             }
         });

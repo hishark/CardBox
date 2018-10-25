@@ -14,8 +14,11 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -48,8 +51,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class EditUserProfileActivity extends Activity implements View.OnClickListener{
-    private ImageButton button_back;
+public class EditUserProfileActivity extends AppCompatActivity implements View.OnClickListener{
     private CircleImageView img_avatar;
     private EditText et_username;
     private CardView fake_button_edit;
@@ -90,6 +92,16 @@ public class EditUserProfileActivity extends Activity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
 
+        //自定义标题栏
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_edituserinfo);
+        setSupportActionBar(toolbar);
+
+        //自定义标题栏
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("编辑资料");
+
         //初始化
         initView();
 
@@ -110,24 +122,30 @@ public class EditUserProfileActivity extends Activity implements View.OnClickLis
     }
 
     private void setOnclick() {
-        button_back.setOnClickListener(this);
         img_avatar.setOnClickListener(this);
         fake_button_edit.setOnClickListener(this);
     }
 
     private void initView() {
-        button_back = findViewById(R.id.bt_editUserInfo_back);
         img_avatar = findViewById(R.id.img_editUserInfo_avatar);
         et_username = findViewById(R.id.et_EditUserInfo_username);
         fake_button_edit = findViewById(R.id.fake_button_EditUserInfo);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_editUserInfo_back:
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
                 finish();
                 break;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.img_editUserInfo_avatar:
                 //Toast.makeText(getApplicationContext(),"这里可以换头像啦",Toast.LENGTH_SHORT).show();
                 String title = "选择获取图片方式";

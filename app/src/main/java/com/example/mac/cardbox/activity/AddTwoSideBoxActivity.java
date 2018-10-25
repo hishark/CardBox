@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,7 +32,6 @@ import okhttp3.Response;
 
 public class AddTwoSideBoxActivity extends AppCompatActivity implements  View.OnClickListener{
 
-    private ImageButton button_return;
     private EditText et_BoxName;
     private EditText et_BoxSide;
     private RadioGroup rg_BoxType, rg_ifPublic;
@@ -67,7 +67,10 @@ public class AddTwoSideBoxActivity extends AppCompatActivity implements  View.On
         //basicActivity标题栏莫名其妙没颜色，用这句就解决啦
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("添加卡盒");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         //初始化
         initView();
@@ -94,12 +97,10 @@ public class AddTwoSideBoxActivity extends AppCompatActivity implements  View.On
     }
 
     private void setOnclick() {
-        button_return.setOnClickListener(this);
         fake_button_addBox.setOnClickListener(this);
     }
 
     private void initView() {
-        button_return = (ImageButton)findViewById(R.id.button_addTwoSideBox_back);
         et_BoxName = (EditText)findViewById(R.id.et_addTwoSideBox_boxname);
         et_BoxSide = (EditText)findViewById(R.id.et_addTwoSideBox_side);
         rg_BoxType = (RadioGroup)findViewById(R.id.radiogroup_addTwoSideBox_boxtype);
@@ -112,9 +113,6 @@ public class AddTwoSideBoxActivity extends AppCompatActivity implements  View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_addTwoSideBox_back:
-                finish();
-                break;
             case R.id.fake_button_addBox_twoSide:
                 if(et_BoxName.getText().toString().equals("")) {
                     Snackbar.make(view,"卡盒名字还没填噢( ﾟдﾟ)つ",Snackbar.LENGTH_SHORT).show();
@@ -124,6 +122,16 @@ public class AddTwoSideBoxActivity extends AppCompatActivity implements  View.On
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
     private void AddTwoSideBoxToServer() {

@@ -1,8 +1,9 @@
 package com.example.mac.cardbox.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Box {
+public class Box implements Serializable {
     String box_id;
     String box_name;
     User user;
