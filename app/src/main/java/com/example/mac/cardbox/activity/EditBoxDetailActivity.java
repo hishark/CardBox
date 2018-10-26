@@ -55,6 +55,15 @@ public class EditBoxDetailActivity extends AppCompatActivity implements View.OnC
                 case EditBoxSuccess_TAG:
                     Intent intent  = new Intent();
                     intent.putExtra("Update_boxname",et_BoxName.getText().toString());
+                    intent.putExtra("Update_boxtype",rb_boxtype.getText().toString());
+                    intent.putExtra("Update_boxname",et_BoxName.getText().toString());
+                    String ifPublic="";
+                    if(rb_ifPublic.getText().toString().equals("是")) {
+                        ifPublic = "公开";
+                    } else {
+                        ifPublic = "私有";
+                    }
+                    intent.putExtra("Update_boxauthority",ifPublic);
                     setResult(RESULT_OK, intent);
                     finish();
                     break;
@@ -123,6 +132,8 @@ public class EditBoxDetailActivity extends AppCompatActivity implements View.OnC
         et_BoxSide = (EditText)findViewById(R.id.et_EditBox_side);
         rg_BoxType = (RadioGroup)findViewById(R.id.radiogroup_EditBox_boxtype);
         rg_ifPublic = (RadioGroup)findViewById(R.id.radiogroup_EditBox_ifPublic);
+
+        et_BoxSide.setHint(currentBox.getBox_side());
 
         et_BoxName.setText(currentBox.getBox_name());
 
@@ -198,6 +209,7 @@ public class EditBoxDetailActivity extends AppCompatActivity implements View.OnC
             ifPublic = "私有";
         }
 
+        //TODO:编辑盒子的设置感觉不需要更新时间啦，只要增加卡片的时候更新时间就好
         RequestBody formBody = new FormBody.Builder()
                 .add("box_id", currentBox.getBox_id())
                 .add("box_name", et_BoxName.getText().toString())

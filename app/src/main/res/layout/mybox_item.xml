@@ -21,8 +21,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_myBox_If_Public"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="52dp"
+            android:layout_height="50dp"
             android:visibility="visible"
             android:src="@drawable/ic_mybox_lock_02"
             android:layout_gravity="right|bottom"/>
@@ -36,9 +36,9 @@
     <TextView
         android:id="@+id/tv_myBox_boxName"
         android:gravity="center"
-        android:maxLines="1"
+        android:lines="2"
         android:ellipsize="end"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:text="ToDoList"/>
 

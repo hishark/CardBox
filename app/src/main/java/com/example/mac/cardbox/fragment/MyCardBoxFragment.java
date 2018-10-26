@@ -133,6 +133,7 @@ public class MyCardBoxFragment extends Fragment {
             Box box = new Box();
             box.setBox_name(HashMaplist.get(i).get("box_name").toString());
             box.setBox_create_time((Timestamp) HashMaplist.get(i).get("box_create_time"));
+            box.setBox_update_time((Timestamp) HashMaplist.get(i).get("box_update_time"));
             box.setBox_id(HashMaplist.get(i).get("box_id").toString());
             box.setBox_love((Integer) HashMaplist.get(i).get("box_love"));
             box.setBox_side(HashMaplist.get(i).get("box_side").toString());
@@ -213,10 +214,22 @@ public class MyCardBoxFragment extends Fragment {
 
                             //利用fastJson——JSON取出timeresult里面的time字段，也就是13位的时间戳
                             long time = JSON.parseObject(timeresult).getLong("time");
+                            Log.d(TAG, "onResponse: 创建时间"+timeresult);
                             Timestamp trueTime = new Timestamp(time);
 
                             //把时间put进daike
                             box.put("box_create_time",trueTime);
+
+                            String timeresult2 = jsonObject.get("box_update_time").toString();
+                            Log.d(TAG, "onResponse: 更新时间"+timeresult2);
+
+                            //利用fastJson——JSON取出timeresult里面的time字段，也就是13位的时间戳
+                            long time2 = JSON.parseObject(timeresult2).getLong("time");
+                            Timestamp trueTime2 = new Timestamp(time2);
+
+                            //把时间put进daike
+                            box.put("box_update_time",trueTime2);
+
 
                             //将13位时间戳转换为年月日时分秒！
                             /*Long time1 = 1524323880000L;

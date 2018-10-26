@@ -36,6 +36,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
 
     private TextView toolbar_tv_boxname;
     private Box currentBox;
+    private TextView tv_createTime,tv_updateTime,tv_boxType,tv_cardType,tv_boxname,tv_authority;
 
     private static final String TAG = "BoxDetailActivity";
     private static final String DeleteBoxUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/DeleteBox";
@@ -179,6 +180,16 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 if (resultCode == RESULT_OK) {
                     String newBoxName = data.getStringExtra("Update_boxname");
                     getSupportActionBar().setTitle(newBoxName);
+                    tv_boxname.setText(newBoxName);
+                    currentBox.setBox_name(newBoxName);
+
+                    String newBoxType = data.getStringExtra("Update_boxtype");
+                    tv_boxType.setText(newBoxType);
+                    currentBox.setBox_type(newBoxType);
+
+                    String ifPublic = data.getStringExtra("Update_boxauthority");
+                    tv_authority.setText(ifPublic);
+                    currentBox.setBox_authority(ifPublic);
                 }
                 break;
         }
@@ -190,7 +201,21 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
+        tv_createTime = findViewById(R.id.myboxdetail_create_time);
+        tv_updateTime = findViewById(R.id.myboxdetail_update_time);
+        tv_boxType = findViewById(R.id.myboxdetail_box_type);
+        tv_cardType = findViewById(R.id.myboxdetail_card_type);
+        tv_boxname = findViewById(R.id.myboxdetail_boxname);
+        tv_authority = findViewById(R.id.myboxdetail_ifPublic);
 
+        String createTime = currentBox.getBox_create_time().toString();
+        String updateTime = currentBox.getBox_update_time().toString();
+        tv_createTime.setText(createTime.substring(0,createTime.length()-2));
+        tv_updateTime.setText(updateTime.substring(0,updateTime.length()-2));
+        tv_boxType.setText(currentBox.getBox_type());
+        tv_cardType.setText(currentBox.getBox_side());
+        tv_boxname.setText(currentBox.getBox_name());
+        tv_authority.setText(currentBox.getBox_authority());
 
     }
 

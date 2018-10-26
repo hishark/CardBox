@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -15,9 +20,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="height" value="64" />
-                            <entry key="outputName" value="ic_box_card_01" />
+                            <entry key="outputName" value="ic_ifpublic_01" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\box_card_01.svg" />
+                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\ifPublic_01.svg" />
                             <entry key="width" value="64" />
                           </map>
                         </option>
