@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    app:cardUseCompatPadding="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/card_backContent"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="hello" />
+
+            <!--<TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="你好" />-->
+
+            <!--<Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="这是背面！成功啦！" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_front"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!--<TextView
+                android:gravity="center"
+                android:text="hello"
+                android:id="@+id/card_frontContent"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />-->
+
+            <com.example.mac.cardbox.util.AutoFitTextView
+                android:id="@+id/card_frontContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:gravity="center"
+                />
+
+
+
+            <!--<TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp" />-->
+
+            <!--<Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="这是正面噢！" />-->
+        </LinearLayout>
+
+        <!--老觉得这个有点碍眼，先注释掉，之后再看要不要啦-->
+        <!--<ImageView
+            android:id="@+id/currentbox_Card_ifReverse"
+            android:visibility="visible"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="bottom|center"
+            android:src="@drawable/ic_reverse_card_01"/>-->
+
+        <ImageButton
+            android:id="@+id/currentbox_Card_bookmark"
+            android:visibility="visible"
+            android:contentDescription="未标记"
+            android:layout_width="30dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-5dp"
+            android:layout_gravity="right|top"
+            android:background="@drawable/ic_bookmark_02_white"/>
+
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

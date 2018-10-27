@@ -34,6 +34,7 @@
 
 
     <TextView
+        style="@style/Base.TextAppearance.AppCompat.Body1"
         android:id="@+id/tv_myBox_boxName"
         android:gravity="center"
         android:lines="2"

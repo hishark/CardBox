@@ -6,6 +6,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
@@ -13,12 +14,13 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 public class ScrollAwareFABBehavior extends CoordinatorLayout.Behavior<FloatingActionsMenu> {
-
+    private static final String TAG = "ScrollAwareFABBehavior";
     private static final android.view.animation.Interpolator INTERPOLATOR=new FastOutSlowInInterpolator();
     private boolean mIsAnimatingOut=false;
 
     public ScrollAwareFABBehavior(Context context, AttributeSet attrs){
         super();
+        Log.d(TAG, "ScrollAwareFABBehavior: 这里来了");
     }
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionsMenu child, View directTargetChild, View target, int nestedScrollAxes) {
@@ -40,6 +42,7 @@ public class ScrollAwareFABBehavior extends CoordinatorLayout.Behavior<FloatingA
         } else if (dyConsumed<0 && child.getVisibility()!=View.VISIBLE){
             animateIn(child);
         }
+        Log.d(TAG, "onNestedScroll: 第一个");
     }
 
     private void animateOut(final FloatingActionsMenu button){

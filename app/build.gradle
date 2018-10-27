@@ -19,6 +19,7 @@ android {
     }
     lintOptions {
         disable 'GoogleAppIndexingWarning'
+        disable 'RestrictedApi'
     }
     buildToolsVersion '28.0.2'
 }
@@ -42,6 +43,7 @@ dependencies {
     implementation 'com.qiniu:happy-dns:0.2.13'
     implementation 'com.alibaba:fastjson:1.2.46'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'com.github.xujiaji:happy-bubble:1.1.6'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
