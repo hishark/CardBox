@@ -1,7 +1,9 @@
 package com.example.mac.cardbox.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mac.cardbox.R;
+import com.example.mac.cardbox.activity.SelectedCardActivity;
 import com.example.mac.cardbox.bean.Card;
 
 import java.util.List;
@@ -37,10 +40,23 @@ public class MyBoxDetailAdapter extends RecyclerView.Adapter<MyBoxDetailAdapter.
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup,int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.twoside_card_item, viewGroup, false);
         final MyBoxDetailAdapter.ViewHolder holder = new MyBoxDetailAdapter.ViewHolder(view);
+
         //点击事件啥的都在这设置
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,SelectedCardActivity.class);
+                //得到点击位置
+                int position = holder.getAdapterPosition();
+                intent.putExtra("selectedCard",cardList.get(position));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                context.startActivity(intent);
+            }
+        });
+
         return holder;
     }
 

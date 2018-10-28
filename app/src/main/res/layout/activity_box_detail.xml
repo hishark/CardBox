@@ -213,6 +213,7 @@
         </android.support.v7.widget.CardView>-->
 
         <android.support.v7.widget.RecyclerView
+            android:padding="5dp"
             android:layout_marginTop="?attr/actionBarSize"
             android:id="@+id/recyclerview_myboxdetail_"
             android:layout_width="match_parent"

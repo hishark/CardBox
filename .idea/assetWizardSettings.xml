@@ -16,12 +16,27 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_add_black_24dp.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_browsecard_02_24" />
+                            <entry key="outputName" value="ic_add_onecard_clear_gray_02" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\browsecard_02_24.svg" />
+                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\add_onecard_clear_gray_02.svg" />
                           </map>
                         </option>
                       </PersistentState>

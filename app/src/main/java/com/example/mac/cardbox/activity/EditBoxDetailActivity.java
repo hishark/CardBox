@@ -209,12 +209,12 @@ public class EditBoxDetailActivity extends AppCompatActivity implements View.OnC
             ifPublic = "私有";
         }
 
-        //TODO:编辑盒子的设置感觉不需要更新时间啦，只要增加卡片的时候更新时间就好
+        //TODO:编辑盒子的设置感觉不需要更新时间啦，只要增加卡片的时候更新时间就好，不过先注释不删，说不定之后需要
+        // .add("box_update_time",String.valueOf(System.currentTimeMillis()))
         RequestBody formBody = new FormBody.Builder()
                 .add("box_id", currentBox.getBox_id())
                 .add("box_name", et_BoxName.getText().toString())
                 .add("box_type",rb_boxtype.getText().toString())
-                .add("box_update_time",String.valueOf(System.currentTimeMillis()))
                 .add("box_authority",ifPublic)
                 .build();
 

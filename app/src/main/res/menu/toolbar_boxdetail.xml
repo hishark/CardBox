@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/menu_boxdetail_edit"
         android:title="修改卡盒"
         android:icon="@drawable/ic_boxdetail_edit_white_05"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/menu_boxdetail_browsecard"
-        android:title="浏览卡片"
-        android:icon="@drawable/ic_box_card_01"
-        app:showAsAction="always"/>
+
     <item
         android:id="@+id/menu_boxdetail_browseMarkcard"
         android:title="浏览已标记卡片"
         android:icon="@drawable/ic_browsecard_02_24"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_boxdetail_browsecard"
+        android:title="浏览卡片"
+        android:icon="@drawable/ic_menu_card_white_01"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_boxdetail_delete"
@@ -24,7 +26,7 @@
     <item
         android:id="@+id/menu_boxdetail_boxinfo"
         android:title="卡盒信息"
-        android:icon="@drawable/ic_boxdetail_info_01_24"
+        android:icon="@drawable/ic_menu_card_info_01"
         app:showAsAction="always"
         />
 </menu>

@@ -78,15 +78,18 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     private static final int DeleteBoxSuccess_TAG = 2;
     private static final int SearchSuccess_TAG = 3;
 
+    BubbleDialog bubble1;
+    View bubbleDialog;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case DeleteBoxSuccess_TAG:
+                    Toast.makeText(BoxDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                     finish();
                     break;
                 case SearchSuccess_TAG:
-                    //Toast.makeText(BoxDetailActivity.this, "解析好啦", Toast.LENGTH_SHORT).show();
                     List<HashMap<String, Object>> list = (List<HashMap<String, Object>>)msg.obj;
                     showAllSearchCard(changeHashMapToCard(list));
                     break;
@@ -101,6 +104,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         MyBoxDetailAdapter myBoxDetailAdapter = new MyBoxDetailAdapter(cardList, getApplicationContext());
         recyclerView.setAdapter(myBoxDetailAdapter);
+
     }
 
 
@@ -121,20 +125,22 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         //得到在MyCardBoxFragment选中的盒子
         currentBox = (Box) getIntent().getSerializableExtra("Box");
 
+
         getSupportActionBar().setTitle(currentBox.getBox_name());
 
         //初始化
         initView();
 
-        //搜索出当前盒子的所有卡片~
-        searchCardByBoxid(currentBox.getBox_id());
-
-
         //集体设置点击事件
         setOnclick();
 
+    }
 
-
+    @Override
+    protected void onResume() {
+        //搜索出当前盒子的所有卡片~这个应该要放到onResume里面
+        searchCardByBoxid(currentBox.getBox_id());
+        super.onResume();
     }
 
     private List<Card> changeHashMapToCard(List<HashMap<String, Object>> HashMaplist) {
@@ -173,7 +179,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.menu_boxdetail_delete:
                 AlertDialog dialog = new AlertDialog.Builder(BoxDetailActivity.this).setTitle("提示信息")
-                        .setMessage("你真的要删掉这个盒子呀？")
+                        .setMessage("确认删除此卡盒？")
                         .setCancelable(true)
                         .setNegativeButton("我想想", new DialogInterface.OnClickListener() {
                             @Override
@@ -181,7 +187,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                                 dialog.dismiss();
                             }
                         })
-                        .setPositiveButton("是滴", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("删了删了", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //删除这个盒子
@@ -192,21 +198,18 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DFA22E"));
                 break;
             case R.id.menu_boxdetail_browsecard:
-                Intent intent2 = new Intent(BoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
-                intent2.putExtra("AllCards",(Serializable)changeHashMapToCard(cardList));
-                startActivity(intent2);
+                if(cardList==null) {
+                    Snackbar.make(fab_addCard,"你还没有添加过卡片哦，添加几张再来玩~",Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Intent intent2 = new Intent(BoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
+                    intent2.putExtra("AllCards",(Serializable)changeHashMapToCard(cardList));
+                    intent2.putExtra("flag","普通卡片");
+                    startActivity(intent2);
+                }
+
                 break;
             case R.id.menu_boxdetail_boxinfo:
-                final BubbleDialog bubble1 = new BubbleDialog(this);
 
-                View bubbleDialog = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bubbledailog_boxinfo,null);
-                bubbleDialog.setBackgroundColor(Color.WHITE);
-                tv_createTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_create_time);
-                tv_updateTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_update_time);
-                tv_boxType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_box_type);
-                tv_cardType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_card_type);
-                tv_boxname = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_boxname);
-                tv_authority = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_ifPublic);
                 String createTime = currentBox.getBox_create_time().toString();
                 String updateTime = currentBox.getBox_update_time().toString();
                 tv_createTime.setText(createTime.substring(0,createTime.length()-2));
@@ -217,12 +220,38 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 tv_authority.setText(currentBox.getBox_authority());
 
                 bubble1.addContentView(bubbleDialog);
+                //这个方法是设置泡泡从哪个view冒出来的
+                //bubble1.setClickedView(fab_addCard);
                 bubble1.setClickedView(fab_addCard);
                 bubble1.calBar(true);
                 bubble1.show();
 
                 break;
             case R.id.menu_boxdetail_browseMarkcard:
+                if(cardList==null) {
+                    Snackbar.make(fab_addCard,"你还没有添加过卡片哦，添加几张再来玩~",Snackbar.LENGTH_SHORT).show();
+                }else {
+                    List<Card> cards = changeHashMapToCard(cardList);
+                    List<Card> markcards = new ArrayList<>();
+                    for(int i=0;i<cards.size();i++) {
+                        if(cards.get(i).getCard_marktype().equals("已标记")) {
+                            markcards.add(cards.get(i));
+                        }
+                    }
+
+                    if (markcards.size()==0) {
+                        Toast.makeText(this, "你还没有标记过卡片噢~(。・∀・)ノ", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent3 = new Intent(BoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
+                        intent3.putExtra("AllMarkCards",(Serializable)markcards);
+                        intent3.putExtra("flag","标记卡片");
+                        startActivity(intent3);
+                    }
+                }
+
+
+
+
                 break;
         }
         return true;
@@ -300,18 +329,32 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void setOnclick() {
-
+        fab_addCard.setOnClickListener(this);
     }
 
     private void initView() {
         fab_addCard = findViewById(R.id.fab_boxdetail_addCard_);
         recyclerView = findViewById(R.id.recyclerview_myboxdetail_);
+
+        bubble1 = new BubbleDialog(this);
+        bubbleDialog = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bubbledailog_boxinfo,null);
+        bubbleDialog.setBackgroundColor(Color.WHITE);
+        tv_createTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_create_time);
+        tv_updateTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_update_time);
+        tv_boxType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_box_type);
+        tv_cardType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_card_type);
+        tv_boxname = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_boxname);
+        tv_authority = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_ifPublic);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.fab_boxdetail_addCard_:
+                Intent intent = new Intent(BoxDetailActivity.this,AddCardActivity.class);
+                intent.putExtra("currentBox",currentBox);
+                startActivity(intent);
+                break;
         }
     }
 
