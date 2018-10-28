@@ -1,26 +1,23 @@
 package com.example.mac.cardbox.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.adapter.AddCardAdapter;
-import com.example.mac.cardbox.adapter.MyBoxDetailAdapter;
+import com.example.mac.cardbox.adapter.AddOneSideCardAdapter;
 import com.example.mac.cardbox.bean.Box;
 import com.example.mac.cardbox.bean.Card;
 import com.example.mac.cardbox.util.Constant;
-import com.example.mac.cardbox.util.CurrentUserUtil;
 import com.example.mac.cardbox.util.RandomIDUtil;
 
 import java.io.IOException;
@@ -37,13 +34,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AddCardActivity extends AppCompatActivity {
+public class AddOneSideCardActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Box currentBox;
     private List<Card> addList;
-    private AddCardAdapter addCardAdapter;
+    private AddOneSideCardAdapter addOneSideCardAdapter;
     private LinearLayoutManager linearLayoutManager;
-    private static final String TAG = "AddCardActivity";
+    private static final String TAG = "AddOneSideCardActivity";
     private static final int AddCardSuccess_TAG = 2;
     private static final int UpdateBoxtimeSuccess_TAG = 3;
     private HashMap<String,Object> result = new HashMap<>();
@@ -59,10 +56,8 @@ public class AddCardActivity extends AppCompatActivity {
                     result = (HashMap<String,Object>)msg.obj;
                     int position = (int)result.get("position");
                     String front = result.get("front").toString();
-                    String back = result.get("back").toString();
                     addList.get(position).setCard_front(front);
-                    addList.get(position).setCard_back(back);
-                    addCardAdapter.notifyDataSetChanged();
+                    addOneSideCardAdapter.notifyDataSetChanged();
                     Log.d(TAG, "handleMessage: 看看全部数据"+addList.toString());
                     break;
                 case AddCardSuccess_TAG:
@@ -133,9 +128,9 @@ public class AddCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_card);
+        setContentView(R.layout.activity_add_oneside_card);
         //自定义标题栏
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_addcard);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_addonesidecard);
         setSupportActionBar(toolbar);
 
         //取消原有标题
@@ -159,7 +154,7 @@ public class AddCardActivity extends AppCompatActivity {
         blankCard.setCard_marktype("未标记");
         blankCard.setCard_front("");
         blankCard.setCard_back("");
-        blankCard.setCard_type("双面");
+        blankCard.setCard_type("单面");
         blankCard.setCard_create_time(new Timestamp(System.currentTimeMillis()));
         addList.add(0,blankCard);
         //addList.add(blankCard);
@@ -169,13 +164,13 @@ public class AddCardActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         addBlankCard();
-        addCardAdapter = new AddCardAdapter(addList, getApplicationContext(),handler);
-        recyclerView.setAdapter(addCardAdapter);
+        addOneSideCardAdapter = new AddOneSideCardAdapter(addList, getApplicationContext(),handler);
+        recyclerView.setAdapter(addOneSideCardAdapter);
 
     }
 
     private void initView() {
-        recyclerView = findViewById(R.id.recyclerview_addCard);
+        recyclerView = findViewById(R.id.recyclerview_addonesideCard);
         addList = new ArrayList<>();
 
     }
@@ -194,7 +189,7 @@ public class AddCardActivity extends AppCompatActivity {
                 break;
             case R.id.menu_addcard_addOne:
                 addBlankCard();
-                addCardAdapter.notifyDataSetChanged();
+                addOneSideCardAdapter.notifyDataSetChanged();
                 break;
             case R.id.menu_addcard_checkAll:
                 for(int i=0;i<addList.size();i++) {

@@ -58,6 +58,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AddCardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SelectedOneSideCardActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.AddOneSideCardActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

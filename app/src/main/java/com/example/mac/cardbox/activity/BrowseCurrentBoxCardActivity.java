@@ -49,13 +49,16 @@ public class BrowseCurrentBoxCardActivity extends AppCompatActivity {
 
         //初始化
         initView();
+        boolean IsOneSideCard =getIntent().getBooleanExtra("IsOneSideCard",false);
 
         mViewPager = (ViewPager) findViewById(R.id.curretboxcard_viewpager);
         //mViewPager2= (ViewPager) findViewById(R.id.viewPager2);
-        mCardAdapter = new CardPagerAdapter(getApplicationContext());
+        mCardAdapter = new CardPagerAdapter(getApplicationContext(),IsOneSideCard);
         unmarkcardList = (List<Card>)getIntent().getSerializableExtra("AllCards");
         markcardList = (List<Card>)getIntent().getSerializableExtra("AllMarkCards");
         String flag = getIntent().getStringExtra("flag");
+
+
 
         if(flag.equals("普通卡片")) {
             cardList = unmarkcardList;

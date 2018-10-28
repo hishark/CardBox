@@ -4,17 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.mac.cardbox.R;
-import com.example.mac.cardbox.activity.AddOneSideBoxActivity;
 import com.example.mac.cardbox.activity.BoxDetailActivity;
 import com.example.mac.cardbox.bean.Box;
 
@@ -34,12 +30,13 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
         ImageView box_icon;
         TextView box_textView;
         CircleImageView box_Authority;
+
         public ViewHolder(View view) {
             super(view);
             myboxView = view;
             box_icon = view.findViewById(R.id.img_Box_icon);
-            box_textView = (TextView)view.findViewById(R.id.tv_myBox_boxName);
-            box_Authority = (CircleImageView)view.findViewById(R.id.img_myBox_If_Public);
+            box_textView = (TextView) view.findViewById(R.id.tv_myBox_boxName);
+            box_Authority = (CircleImageView) view.findViewById(R.id.img_myBox_If_Public);
         }
     }
 
@@ -60,8 +57,10 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
                 int position = holder.getAdapterPosition();
                 Box box = mBoxList.get(position);
                 Intent intent = new Intent(mContext, BoxDetailActivity.class);
-                intent.putExtra("Box",mBoxList.get(position));
+                intent.putExtra("Box", mBoxList.get(position));
                 mContext.startActivity(intent);
+
+
             }
         });
 
@@ -71,7 +70,7 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
                 int position = holder.getAdapterPosition();
                 Box box = mBoxList.get(position);
                 Intent intent = new Intent(mContext, BoxDetailActivity.class);
-                intent.putExtra("Box",mBoxList.get(position));
+                intent.putExtra("Box", mBoxList.get(position));
                 mContext.startActivity(intent);
             }
         });
@@ -81,12 +80,12 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        if(mBoxList.size()!=0) {
+        if (mBoxList.size() != 0) {
             Box box = mBoxList.get(i);
             viewHolder.box_textView.setText(box.getBox_name());
-            if(box.getBox_authority().equals("公开")) {
+            if (box.getBox_authority().equals("公开")) {
                 viewHolder.box_Authority.setVisibility(View.INVISIBLE);
-            }else {
+            } else {
                 viewHolder.box_Authority.setVisibility(View.VISIBLE);
             }
         }

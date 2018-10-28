@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.text.TextPaint;
@@ -47,6 +48,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private List<Card> mData;
     private float mBaseElevation;
     private Context context;
+    private boolean IsOneSideCard;
 
     private FrameLayout mFlContainer[];
     private LinearLayout mFlCardBack[];
@@ -64,6 +66,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private View mCurrentView;
 
     private boolean isNeedAdapta = true;
+
 
     private static final String UpdateCardMarktypeUrl = "http://"+ Constant.Server_IP +":8080/CardBox-Server/UpdateCardMarktype";
 
@@ -119,7 +122,13 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: >"+position);
-                flipCardInAdapter(position);
+                if(IsOneSideCard) {
+                    //Toast.makeText(context, "你是一张单面卡片，不要调皮", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view,"你是一张单面卡片，不要调皮",Snackbar.LENGTH_SHORT).show();
+                } else {
+                    flipCardInAdapter(position);
+
+                }
             }
         });
 
@@ -201,10 +210,11 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         return mCurrentView;
     }*/
 
-    public CardPagerAdapter(Context con) {
+    public CardPagerAdapter(Context con,boolean flag) {
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
         context = con;
+        IsOneSideCard = flag;
 
     }
 

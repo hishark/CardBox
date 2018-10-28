@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.adapter.MyBoxAdapter;
 import com.example.mac.cardbox.adapter.MyBoxDetailAdapter;
+import com.example.mac.cardbox.adapter.MyOneSideBoxDetailAdapter;
 import com.example.mac.cardbox.bean.Box;
 import com.example.mac.cardbox.bean.Card;
 import com.example.mac.cardbox.bean.User;
@@ -77,6 +78,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     private static final int ClickToEdit = 1;
     private static final int DeleteBoxSuccess_TAG = 2;
     private static final int SearchSuccess_TAG = 3;
+    private static final int ClickToAddCard = 4;
 
     BubbleDialog bubble1;
     View bubbleDialog;
@@ -102,8 +104,16 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     private void showAllSearchCard(List<Card> cardList) {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        MyBoxDetailAdapter myBoxDetailAdapter = new MyBoxDetailAdapter(cardList, getApplicationContext());
-        recyclerView.setAdapter(myBoxDetailAdapter);
+
+        if(currentBox.getBox_side().equals("双面")) {
+            MyBoxDetailAdapter myBoxDetailAdapter = new MyBoxDetailAdapter(cardList, getApplicationContext());
+            recyclerView.setAdapter(myBoxDetailAdapter);
+        } else {
+            MyOneSideBoxDetailAdapter myOneSideBoxDetailAdapter = new MyOneSideBoxDetailAdapter(cardList, getApplicationContext());
+            recyclerView.setAdapter(myOneSideBoxDetailAdapter);
+        }
+
+
 
     }
 
@@ -201,9 +211,13 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 if(cardList==null) {
                     Snackbar.make(fab_addCard,"你还没有添加过卡片哦，添加几张再来玩~",Snackbar.LENGTH_SHORT).show();
                 } else {
+
                     Intent intent2 = new Intent(BoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
                     intent2.putExtra("AllCards",(Serializable)changeHashMapToCard(cardList));
                     intent2.putExtra("flag","普通卡片");
+                    if(currentBox.getBox_side().equals("单面")) {
+                        intent2.putExtra("IsOneSideCard",true);
+                    }
                     startActivity(intent2);
                 }
 
@@ -212,8 +226,10 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
 
                 String createTime = currentBox.getBox_create_time().toString();
                 String updateTime = currentBox.getBox_update_time().toString();
-                tv_createTime.setText(createTime.substring(0,createTime.length()-2));
-                tv_updateTime.setText(updateTime.substring(0,updateTime.length()-2));
+                //添加卡片时时间会是2018-10-29 01:03:30.391，最后不止多了两位，所以直接0-19省事嘻嘻
+                tv_createTime.setText(createTime.substring(0,19));
+                Log.d(TAG, "onOptionsItemSelected: 为啥多两位"+updateTime);
+                tv_updateTime.setText(updateTime.substring(0,19));
                 tv_boxType.setText(currentBox.getBox_type());
                 tv_cardType.setText(currentBox.getBox_side());
                 tv_boxname.setText(currentBox.getBox_name());
@@ -240,11 +256,14 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                     }
 
                     if (markcards.size()==0) {
-                        Toast.makeText(this, "你还没有标记过卡片噢~(。・∀・)ノ", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(recyclerView,"你还没有标记过卡片噢~(。・∀・)ノ",Snackbar.LENGTH_SHORT).show();
                     } else {
                         Intent intent3 = new Intent(BoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
                         intent3.putExtra("AllMarkCards",(Serializable)markcards);
                         intent3.putExtra("flag","标记卡片");
+                        if(currentBox.getBox_side().equals("单面")) {
+                            intent3.putExtra("IsOneSideCard",true);
+                        }
                         startActivity(intent3);
                     }
                 }
@@ -323,6 +342,14 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                     currentBox.setBox_authority(ifPublic);
                 }
                 break;
+            case ClickToAddCard:
+                if(resultCode  == RESULT_OK) {
+                    long updatetime = data.getLongExtra("box_updatetime",0);
+                   //tv_updateTime.setText(String.valueOf(updatetime));
+                    Timestamp time = new Timestamp(updatetime);
+                    currentBox.setBox_update_time(time);
+                }
+                break;
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -351,9 +378,17 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_boxdetail_addCard_:
-                Intent intent = new Intent(BoxDetailActivity.this,AddCardActivity.class);
-                intent.putExtra("currentBox",currentBox);
-                startActivity(intent);
+                if (currentBox.getBox_side().equals("双面")) {
+                    Intent intent = new Intent(BoxDetailActivity.this, AddCardActivity.class);
+                    intent.putExtra("currentBox", currentBox);
+                    //startActivity(intent);
+                    startActivityForResult(intent, ClickToAddCard);
+                } else {
+                    Intent intent = new Intent(BoxDetailActivity.this, AddOneSideCardActivity.class);
+                    intent.putExtra("currentBox", currentBox);
+                    //startActivity(intent);
+                    startActivityForResult(intent, ClickToAddCard);
+                }
                 break;
         }
     }
