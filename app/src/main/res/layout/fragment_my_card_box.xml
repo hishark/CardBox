@@ -66,11 +66,28 @@
             android:layout_margin="10dp"
             app:cardCornerRadius="8dp">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_mybox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/mycardbox_welcomespeech"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:text="你还没有创建过卡盒噢~\n点击右下角的按钮创建一个吧\n(ง •_•)ง"
+                    android:layout_height="wrap_content" />
+
+
+            </FrameLayout>
 
         </android.support.v7.widget.CardView>
 

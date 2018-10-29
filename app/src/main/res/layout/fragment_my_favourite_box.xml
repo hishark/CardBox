@@ -57,13 +57,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_myloveBox"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_myloveBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/myfavouritebox_welcomespeech"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:text="你没有喜欢的卡盒噢~\n快去找一个心上盒吧\n(ง •_•)ง"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+
 
 
         </android.support.v7.widget.CardView>

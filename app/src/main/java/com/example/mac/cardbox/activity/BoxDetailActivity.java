@@ -67,6 +67,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     private TextView tv_createTime,tv_updateTime,tv_boxType,tv_cardType,tv_boxname,tv_authority;
     private FloatingActionButton fab_addCard;
     private RecyclerView recyclerView;
+    private TextView welcomespeech;
 
     private List<HashMap<String, Object>> cardList=null;
     private HashMap<String, Object> card=null;
@@ -79,10 +80,13 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     private static final int DeleteBoxSuccess_TAG = 2;
     private static final int SearchSuccess_TAG = 3;
     private static final int ClickToAddCard = 4;
-
+    private static final int SearchFail_TAG = 5;
+    List<HashMap<String, Object>> list;
+    List<Card> cards;
     BubbleDialog bubble1;
     View bubbleDialog;
-
+    MyBoxDetailAdapter myBoxDetailAdapter;
+    MyOneSideBoxDetailAdapter myOneSideBoxDetailAdapter;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -92,8 +96,21 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                     finish();
                     break;
                 case SearchSuccess_TAG:
-                    List<HashMap<String, Object>> list = (List<HashMap<String, Object>>)msg.obj;
-                    showAllSearchCard(changeHashMapToCard(list));
+                    welcomespeech.setVisibility(View.INVISIBLE);
+                    list = (List<HashMap<String, Object>>)msg.obj;
+                    cards = changeHashMapToCard(list);
+                    showAllSearchCard(cards);
+                    break;
+                case SearchFail_TAG:
+                    welcomespeech.setVisibility(View.VISIBLE);
+                    if(cards!=null) {
+                        cards.clear();
+                        if (currentBox.getBox_side().equals("双面")) {
+                            myBoxDetailAdapter.notifyDataSetChanged();
+                        } else {
+                            myOneSideBoxDetailAdapter.notifyDataSetChanged();
+                        }
+                    }
                     break;
             }
 
@@ -108,10 +125,10 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         boolean IsOthers = false;
 
         if(currentBox.getBox_side().equals("双面")) {
-            MyBoxDetailAdapter myBoxDetailAdapter = new MyBoxDetailAdapter(cardList, getApplicationContext(),IsOthers);
+            myBoxDetailAdapter = new MyBoxDetailAdapter(cardList, getApplicationContext(),IsOthers);
             recyclerView.setAdapter(myBoxDetailAdapter);
         } else {
-            MyOneSideBoxDetailAdapter myOneSideBoxDetailAdapter = new MyOneSideBoxDetailAdapter(cardList, getApplicationContext(),IsOthers);
+            myOneSideBoxDetailAdapter = new MyOneSideBoxDetailAdapter(cardList, getApplicationContext(),IsOthers);
             recyclerView.setAdapter(myOneSideBoxDetailAdapter);
         }
 
@@ -145,6 +162,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
 
         //集体设置点击事件
         setOnclick();
+
 
     }
 
@@ -374,6 +392,8 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         tv_cardType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_card_type);
         tv_boxname = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_boxname);
         tv_authority = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_ifPublic);
+
+        welcomespeech = findViewById(R.id.mycardboxdetail_welcomespeech);
     }
 
     @Override
@@ -507,7 +527,10 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                     msg.obj = cardList;
                     handler.sendMessage(msg);
                 } else {
-
+                    Message msg = new Message();
+                    msg.what = SearchFail_TAG;
+                    msg.obj = cardList;
+                    handler.sendMessage(msg);
                 }
 
 

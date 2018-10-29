@@ -30,6 +30,7 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
         ImageView box_icon;
         TextView box_textView;
         CircleImageView box_Authority;
+        TextView welcome;
 
         public ViewHolder(View view) {
             super(view);
@@ -37,6 +38,7 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
             box_icon = view.findViewById(R.id.img_Box_icon);
             box_textView = (TextView) view.findViewById(R.id.tv_myBox_boxName);
             box_Authority = (CircleImageView) view.findViewById(R.id.img_myBox_If_Public);
+            welcome = view.findViewById(R.id.mycardbox_welcomespeech);
         }
     }
 
@@ -74,6 +76,8 @@ public class MyBoxAdapter extends RecyclerView.Adapter<MyBoxAdapter.ViewHolder> 
                 mContext.startActivity(intent);
             }
         });
+
+
 
         return holder;
     }

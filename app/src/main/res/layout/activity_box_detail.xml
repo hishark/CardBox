@@ -212,14 +212,29 @@
 
         </android.support.v7.widget.CardView>-->
 
+    <FrameLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:padding="5dp"
-            android:layout_marginTop="?attr/actionBarSize"
             android:id="@+id/recyclerview_myboxdetail_"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
+        <TextView
+            android:id="@+id/mycardboxdetail_welcomespeech"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:text="你还没有创建过卡片噢~\n点击右下角的按钮创建一个吧\n(ง •_•)ง"
+            android:layout_height="wrap_content" />
+
+
+    </FrameLayout>
     <android.support.design.widget.FloatingActionButton
         app:layout_behavior="com.example.mac.cardbox.behavior.ScrollAwareFABBehavior2"
         android:id="@+id/fab_boxdetail_addCard_"

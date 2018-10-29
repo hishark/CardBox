@@ -13,12 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.adapter.MyBoxAdapter;
 import com.example.mac.cardbox.adapter.MyFavouriteBoxAdapter;
 import com.example.mac.cardbox.bean.Box;
+import com.example.mac.cardbox.bean.Card;
 import com.example.mac.cardbox.bean.User;
 import com.example.mac.cardbox.util.Constant;
 import com.example.mac.cardbox.util.CurrentUserUtil;
@@ -44,6 +46,7 @@ import okhttp3.Response;
 public class MyFavouriteBoxFragment extends Fragment {
 
     private View view;
+    private TextView welcomespeech;
     private static final String TAG = "MyFavouriteBoxFragment";
     private RecyclerView recyclerView;
     private List<Box> boxList;
@@ -51,15 +54,29 @@ public class MyFavouriteBoxFragment extends Fragment {
     private HashMap<String, Object> box=null;
     private static final String GetFavouriteBoxUrl =  "http://" + Constant.Server_IP + ":8080/CardBox-Server/GetFavouriteBox";
     private static final int SearchSuccess_TAG = 1;
-
+    private static final int SearchFail_TAG = 2;
+    List<HashMap<String, Object>> list;
+    List<Box> boxes;
+    MyFavouriteBoxAdapter myFavouriteBoxAdapter;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SearchSuccess_TAG:
-                    List<HashMap<String, Object>> list = (List<HashMap<String, Object>>)msg.obj;
-                    showAllSearchBox(changeHashMapToBox(list));
-                    Log.d(TAG, "handleMessage: hello");
+                    welcomespeech.setVisibility(View.INVISIBLE);
+                    list = (List<HashMap<String, Object>>)msg.obj;
+                    boxes = changeHashMapToBox(list);
+                    showAllSearchBox(boxes);
+                    if (boxes.size()==0) {
+                        welcomespeech.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case SearchFail_TAG:
+                    welcomespeech.setVisibility(View.VISIBLE);
+                    if(boxes!=null) {
+                        boxes.clear();
+                        myFavouriteBoxAdapter.notifyDataSetChanged();
+                    }
                     break;
             }
         }
@@ -107,7 +124,7 @@ public class MyFavouriteBoxFragment extends Fragment {
     private void showAllSearchBox(List<Box> boxList) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        MyFavouriteBoxAdapter myFavouriteBoxAdapter = new MyFavouriteBoxAdapter(boxList, getContext());
+        myFavouriteBoxAdapter = new MyFavouriteBoxAdapter(boxList, getContext());
         recyclerView.setAdapter(myFavouriteBoxAdapter);
     }
 
@@ -213,7 +230,9 @@ public class MyFavouriteBoxFragment extends Fragment {
                     msg.obj = boxlist;
                     handler.sendMessage(msg);
                 } else {
-
+                    Message msg = new Message();
+                    msg.what = SearchFail_TAG;
+                    handler.sendMessage(msg);
                 }
 
 
@@ -223,6 +242,7 @@ public class MyFavouriteBoxFragment extends Fragment {
 
     private void initView() {
         recyclerView =  view.findViewById(R.id.recyclerview_myloveBox);
+        welcomespeech = view.findViewById(R.id.myfavouritebox_welcomespeech);
     }
 
 }

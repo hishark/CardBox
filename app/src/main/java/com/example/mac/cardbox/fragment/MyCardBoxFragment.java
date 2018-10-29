@@ -54,6 +54,7 @@ public class MyCardBoxFragment extends Fragment {
     private TextView tv_nickname,tv_account;
     private RecyclerView recyclerView_mybox;
     private FrameLayout avatar_area;
+    private TextView welcomeSpeech;
 
     //悬浮按钮 暂时搁置
     private FloatingActionsMenu fab_button_menu_addBox;
@@ -63,18 +64,30 @@ public class MyCardBoxFragment extends Fragment {
     private static final String  searchBoxByUserAccountUrl= "http://" + Constant.Server_IP + ":8080/CardBox-Server/searchBoxByUserAccount";
     private static final String TAG = "MyCardBoxFragment";
     private static final int SearchSuccess_TAG = 1;
+    private static final int SearchFail_TAG = 2;
 
     private List<HashMap<String, Object>> boxlist=null;
     private HashMap<String, Object> box=null;
-
+    List<HashMap<String, Object>> list;
+    List<Box> boxes;
+    MyBoxAdapter myBoxAdapter;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SearchSuccess_TAG:
-                    List<HashMap<String, Object>> list = (List<HashMap<String, Object>>)msg.obj;
-                    showAllSearchBox(changeHashMapToBox(list));
+                    welcomeSpeech.setVisibility(View.INVISIBLE);
+                    list = (List<HashMap<String, Object>>)msg.obj;
+                    boxes = changeHashMapToBox(list);
+                    showAllSearchBox(boxes);
                     Log.d(TAG, "handleMessage: hello");
+                    break;
+                case SearchFail_TAG:
+                    welcomeSpeech.setVisibility(View.VISIBLE);
+                    if(boxes!=null) {
+                        boxes.clear();
+                        myBoxAdapter.notifyDataSetChanged();
+                    }
                     break;
             }
         }
@@ -122,7 +135,7 @@ public class MyCardBoxFragment extends Fragment {
     private void showAllSearchBox(List<Box> boxList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView_mybox.setLayoutManager(gridLayoutManager);
-        MyBoxAdapter myBoxAdapter = new MyBoxAdapter(boxList, getContext());
+        myBoxAdapter = new MyBoxAdapter(boxList, getContext());
         recyclerView_mybox.setAdapter(myBoxAdapter);
     }
 
@@ -250,7 +263,9 @@ public class MyCardBoxFragment extends Fragment {
                     msg.obj = boxlist;
                     handler.sendMessage(msg);
                 } else {
-
+                    Message msg = new Message();
+                    msg.what = SearchFail_TAG;
+                    handler.sendMessage(msg);
                 }
 
 
@@ -302,6 +317,7 @@ public class MyCardBoxFragment extends Fragment {
         tv_account = (TextView)view.findViewById(R.id.tv_mybox_user_account);
         recyclerView_mybox = (RecyclerView)view.findViewById(R.id.recyclerview_mybox);
         avatar_area = (FrameLayout)view.findViewById(R.id.framelayout_avatarArea);
+        welcomeSpeech = view.findViewById(R.id.mycardbox_welcomespeech);
     }
 
 
