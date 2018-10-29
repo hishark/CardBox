@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:src="@drawable/box_item_32_07" />
+
+    </LinearLayout>
+    <!--  android:background="@drawable/mylove_dialog_02"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:background="@drawable/mylove_dialog_02"
+        android:gravity="left"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/ic_lovebox_cardicon_01" />
+
+            <TextView
+                android:id="@+id/tv_lovebox_boxname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="英语单词英语单词英语单词"
+                android:textColor="#f2c062" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="14dp"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/ic_bubble_dialog_user_yellow_01" />
+
+            <TextView
+                android:id="@+id/tv_lovebox_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="喂鲨鱼" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/ic_lovebox_timeicon_01" />
+
+            <TextView
+                android:id="@+id/tv_lovebox_updatetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-07-09" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更新了卡盒" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

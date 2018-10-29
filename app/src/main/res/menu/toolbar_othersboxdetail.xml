@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_othersboxdetail_browsecard"
+        android:title="浏览卡片"
+        android:icon="@drawable/ic_menu_card_white_01"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_othersboxdetail_boxinfo"
+        android:title="卡盒信息"
+        android:icon="@drawable/ic_menu_card_info_01"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/menu_othersboxdetail_userinfo"
+        android:title="作者信息"
+        android:icon="@drawable/ic_menu_otheruser_white_01"
+        app:showAsAction="always"
+        />
+</menu>

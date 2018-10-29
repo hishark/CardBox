@@ -85,12 +85,14 @@ public class SearchBoxFragment extends Fragment {
             Box box = new Box();
             box.setBox_name(HashMaplist.get(i).get("box_name").toString());
             box.setBox_create_time((Timestamp) HashMaplist.get(i).get("box_create_time"));
+            box.setBox_update_time((Timestamp) HashMaplist.get(i).get("box_update_time"));
             box.setBox_id(HashMaplist.get(i).get("box_id").toString());
             box.setBox_love((Integer) HashMaplist.get(i).get("box_love"));
             box.setBox_side(HashMaplist.get(i).get("box_side").toString());
-            box.setBox_type(HashMaplist.get(i).get("box_side").toString());
+            box.setBox_type(HashMaplist.get(i).get("box_type").toString());
             box.setUser((User)HashMaplist.get(i).get("user"));
             box.setBox_cardnum((Integer)HashMaplist.get(i).get("box_cardnum"));
+            box.setBox_authority(HashMaplist.get(i).get("box_authority").toString());
 
             boxList.add(box);
         }
@@ -301,6 +303,15 @@ public class SearchBoxFragment extends Fragment {
                             SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date= new Date(time1);
                             String d = format.format(date);*/
+
+                            String timeresult1 = jsonObject.get("box_update_time").toString();
+
+                            //利用fastJson——JSON取出timeresult里面的time字段，也就是13位的时间戳
+                            long time1 = JSON.parseObject(timeresult1).getLong("time");
+                            Timestamp trueTime1 = new Timestamp(time1);
+
+                            //把时间put进daike
+                            box.put("box_update_time",trueTime1);
 
                             boxlist.add(box);
                         }

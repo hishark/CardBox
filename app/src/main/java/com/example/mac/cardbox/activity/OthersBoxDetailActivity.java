@@ -1,18 +1,13 @@
 package com.example.mac.cardbox.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -21,21 +16,19 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mac.cardbox.R;
-import com.example.mac.cardbox.adapter.MyBoxAdapter;
 import com.example.mac.cardbox.adapter.MyBoxDetailAdapter;
 import com.example.mac.cardbox.adapter.MyOneSideBoxDetailAdapter;
 import com.example.mac.cardbox.bean.Box;
+import com.example.mac.cardbox.bean.BoxFavourite;
 import com.example.mac.cardbox.bean.Card;
 import com.example.mac.cardbox.bean.User;
 import com.example.mac.cardbox.util.Constant;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.example.mac.cardbox.util.CurrentUserUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -60,25 +53,28 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class BoxDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class OthersBoxDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView toolbar_tv_boxname;
     private Box currentBox;
-    private TextView tv_createTime,tv_updateTime,tv_boxType,tv_cardType,tv_boxname,tv_authority;
-    private FloatingActionButton fab_addCard;
+    private TextView tv_createTime,tv_updateTime,tv_boxType,tv_cardType,tv_boxname,tv_authority,tv_username;
+    private FloatingActionButton fab_loveBox;
     private RecyclerView recyclerView;
 
     private List<HashMap<String, Object>> cardList=null;
     private HashMap<String, Object> card=null;
 
     private static final String TAG = "BoxDetailActivity";
-    private static final String DeleteBoxUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/DeleteBox";
     private static final String SearchCardByBoxIDUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/SearchCardByBoxID";
+    private static final String AddBoxToFavouriteUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/AddBoxFavourite";
+    private static final String DeleteFavouriteBoxUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/DeleteFavouriteBox";
 
-    private static final int ClickToEdit = 1;
-    private static final int DeleteBoxSuccess_TAG = 2;
-    private static final int SearchSuccess_TAG = 3;
-    private static final int ClickToAddCard = 4;
+    private static final int SearchSuccess_TAG = 1;
+    private static final int AddBoxToFavouriteSuccess_TAG = 2;
+    private static final int FavouriteAlreadyExist_TAG = 3;
+    private static final int DeleteFavouriteSuccess_TAG = 4;
+
+    private BoxFavourite box_favourite;
 
     BubbleDialog bubble1;
     View bubbleDialog;
@@ -87,13 +83,27 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case DeleteBoxSuccess_TAG:
-                    Toast.makeText(BoxDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
-                    finish();
-                    break;
                 case SearchSuccess_TAG:
                     List<HashMap<String, Object>> list = (List<HashMap<String, Object>>)msg.obj;
                     showAllSearchCard(changeHashMapToCard(list));
+                    break;
+                case AddBoxToFavouriteSuccess_TAG:
+                    Snackbar.make(recyclerView,"已添加至你喜欢的卡盒列表",Snackbar.LENGTH_SHORT).show();
+                    break;
+                case FavouriteAlreadyExist_TAG:
+                    Snackbar.make(recyclerView,"该卡盒已经在你的喜欢列表里啦~",Snackbar.LENGTH_SHORT)
+                            .setAction("取消喜欢", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Log.d(TAG, "onClick: 准备删除");
+                                    CancelFavouriteBox(box_favourite);
+                                }
+                            })
+                            .setActionTextColor(Color.parseColor("#d75555"))
+                            .show();
+                    break;
+                case DeleteFavouriteSuccess_TAG:
+                    Snackbar.make(recyclerView,"已取消喜欢（；´д｀）ゞ",Snackbar.LENGTH_SHORT).show();
                     break;
             }
 
@@ -101,11 +111,57 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         }
     };
 
+    private void CancelFavouriteBox(BoxFavourite boxfavourite) {
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        //创建表单请求体
+        /**
+         * key值与服务器端controller中request.getParameter中的key一致
+         */
+
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("box_id", boxfavourite.getBox().getBox_id())
+                .add("user_account", boxfavourite.getUser().getUser_account())
+                .build();
+
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url(DeleteFavouriteBoxUrl)
+                .post(formBody)
+                .build();
+
+        /**
+         * Get的异步请求，不需要跟同步请求一样开启子线程
+         * 但是回调方法还是在子线程中执行的
+         * 所以要用到Handler传数据回主线程更新UI
+         */
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            //回调的方法执行在子线程
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: 喜欢的卡盒记录删除成功啦");
+                    Message msg = new Message();
+                    msg.what = DeleteFavouriteSuccess_TAG;
+                    handler.sendMessage(msg);
+                } else {
+
+                }
+            }
+        });
+    }
+
     private void showAllSearchCard(List<Card> cardList) {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        boolean IsOthers = false;
+        boolean IsOthers = true;
 
         if(currentBox.getBox_side().equals("双面")) {
             MyBoxDetailAdapter myBoxDetailAdapter = new MyBoxDetailAdapter(cardList, getApplicationContext(),IsOthers);
@@ -123,10 +179,10 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_box_detail);
+        setContentView(R.layout.activity_others_box_detail);
 
         //自定义标题栏
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_boxDetail);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_othersboxDetail);
         setSupportActionBar(toolbar);
 
         //取消原有标题
@@ -135,7 +191,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //得到在MyCardBoxFragment选中的盒子
-        currentBox = (Box) getIntent().getSerializableExtra("Box");
+        currentBox = (Box) getIntent().getSerializableExtra("OthersBox");
 
 
         getSupportActionBar().setTitle(currentBox.getBox_name());
@@ -174,7 +230,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_boxdetail, menu);
+        getMenuInflater().inflate(R.menu.toolbar_othersboxdetail, menu);
         return true;
     }
 
@@ -184,39 +240,15 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.menu_boxdetail_edit:
-                Intent intent = new Intent(BoxDetailActivity.this, EditBoxDetailActivity.class);
-                intent.putExtra("editBox", currentBox);
-                startActivityForResult(intent, ClickToEdit);
-                break;
-            case R.id.menu_boxdetail_delete:
-                AlertDialog dialog = new AlertDialog.Builder(BoxDetailActivity.this).setTitle("提示信息")
-                        .setMessage("确认删除此卡盒？")
-                        .setCancelable(true)
-                        .setNegativeButton("我想想", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton("删了删了", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //删除这个盒子
-                                deleteBoxFromServer(currentBox.getBox_id().toString());
-                            }
-                        }).create();
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DFA22E"));
-                break;
-            case R.id.menu_boxdetail_browsecard:
+            case R.id.menu_othersboxdetail_browsecard:
                 if(cardList==null) {
-                    Snackbar.make(fab_addCard,"你还没有添加过卡片哦，添加几张再来玩~",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(fab_loveBox,"当前盒子还没有卡片哦",Snackbar.LENGTH_SHORT).show();
                 } else {
 
-                    Intent intent2 = new Intent(BoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
+                    Intent intent2 = new Intent(OthersBoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
                     intent2.putExtra("AllCards",(Serializable)changeHashMapToCard(cardList));
                     intent2.putExtra("flag","普通卡片");
+                    intent2.putExtra("IsOthers",true);
                     if(currentBox.getBox_side().equals("单面")) {
                         intent2.putExtra("IsOneSideCard",true);
                     }
@@ -224,7 +256,7 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 }
 
                 break;
-            case R.id.menu_boxdetail_boxinfo:
+            case R.id.menu_othersboxdetail_boxinfo:
 
                 String createTime = currentBox.getBox_create_time().toString();
                 String updateTime = currentBox.getBox_update_time().toString();
@@ -236,50 +268,55 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 tv_cardType.setText(currentBox.getBox_side());
                 tv_boxname.setText(currentBox.getBox_name());
                 tv_authority.setText(currentBox.getBox_authority());
+                tv_username.setText(currentBox.getUser().getUser_nickname());
 
                 bubble1.addContentView(bubbleDialog);
                 //这个方法是设置泡泡从哪个view冒出来的
                 //bubble1.setClickedView(fab_addCard);
-                bubble1.setClickedView(fab_addCard);
+                bubble1.setClickedView(fab_loveBox);
                 bubble1.calBar(true);
                 bubble1.show();
-
-                break;
-            case R.id.menu_boxdetail_browseMarkcard:
-                if(cardList==null) {
-                    Snackbar.make(fab_addCard,"你还没有添加过卡片哦，添加几张再来玩~",Snackbar.LENGTH_SHORT).show();
-                }else {
-                    List<Card> cards = changeHashMapToCard(cardList);
-                    List<Card> markcards = new ArrayList<>();
-                    for(int i=0;i<cards.size();i++) {
-                        if(cards.get(i).getCard_marktype().equals("已标记")) {
-                            markcards.add(cards.get(i));
-                        }
-                    }
-
-                    if (markcards.size()==0) {
-                        Snackbar.make(recyclerView,"你还没有标记过卡片噢~(。・∀・)ノ",Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent3 = new Intent(BoxDetailActivity.this,BrowseCurrentBoxCardActivity.class);
-                        intent3.putExtra("AllMarkCards",(Serializable)markcards);
-                        intent3.putExtra("flag","标记卡片");
-                        if(currentBox.getBox_side().equals("单面")) {
-                            intent3.putExtra("IsOneSideCard",true);
-                        }
-                        startActivity(intent3);
-                    }
-                }
-
-
-
 
                 break;
         }
         return true;
     }
 
-    private void deleteBoxFromServer(String box_id) {
 
+
+    private void setOnclick() {
+        fab_loveBox.setOnClickListener(this);
+    }
+
+    private void initView() {
+        fab_loveBox = findViewById(R.id.fab_othersboxdetail_loveBox);
+        recyclerView = findViewById(R.id.recyclerview_othersboxdetail_);
+
+        bubble1 = new BubbleDialog(this);
+        bubbleDialog = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bubbledailog_othersboxinfo,null);
+        bubbleDialog.setBackgroundColor(Color.WHITE);
+        tv_createTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_create_time);
+        tv_updateTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_update_time);
+        tv_boxType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_box_type);
+        tv_cardType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_card_type);
+        tv_boxname = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_boxname);
+        tv_authority = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_ifPublic);
+        tv_username = bubbleDialog.findViewById(R.id.bubbledialog_otherboxdetail_username);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_othersboxdetail_loveBox:
+                box_favourite = new BoxFavourite();
+                box_favourite.setBox(currentBox);
+                box_favourite.setUser(CurrentUserUtil.getCurrentUser());
+                AddBoxToFavourite(box_favourite);
+                break;
+        }
+    }
+
+    private void AddBoxToFavourite(BoxFavourite box_favourite) {
         //创建一个OkHttpClient对象
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -287,15 +324,15 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
         /**
          * key值与服务器端controller中request.getParameter中的key一致
          */
-
-
         RequestBody formBody = new FormBody.Builder()
-                .add("box_id", box_id)
+                .add("box_id", box_favourite.getBox().getBox_id())
+                .add("user_account", box_favourite.getUser().getUser_account())
+                .add("favourite_time", String.valueOf(System.currentTimeMillis()))
                 .build();
 
         //创建一个请求对象
         Request request = new Request.Builder()
-                .url(DeleteBoxUrl)
+                .url(AddBoxToFavouriteUrl)
                 .post(formBody)
                 .build();
 
@@ -312,87 +349,18 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
             //回调的方法执行在子线程
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "onResponse: 卡盒删除成功啦");
+                if(response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 喜欢的卡盒添加成功啦");
                     Message msg = new Message();
-                    msg.what = DeleteBoxSuccess_TAG;
+                    msg.what = AddBoxToFavouriteSuccess_TAG;
                     handler.sendMessage(msg);
-                } else {
-
+                }else{
+                    Message msg = new Message();
+                    msg.what = FavouriteAlreadyExist_TAG;
+                    handler.sendMessage(msg);
                 }
             }
         });
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode) {
-            case ClickToEdit:
-                if (resultCode == RESULT_OK) {
-                    String newBoxName = data.getStringExtra("Update_boxname");
-                    getSupportActionBar().setTitle(newBoxName);
-                    tv_boxname.setText(newBoxName);
-                    currentBox.setBox_name(newBoxName);
-
-                    String newBoxType = data.getStringExtra("Update_boxtype");
-                    tv_boxType.setText(newBoxType);
-                    currentBox.setBox_type(newBoxType);
-
-                    String ifPublic = data.getStringExtra("Update_boxauthority");
-                    tv_authority.setText(ifPublic);
-                    currentBox.setBox_authority(ifPublic);
-                }
-                break;
-            case ClickToAddCard:
-                if(resultCode  == RESULT_OK) {
-                    long updatetime = data.getLongExtra("box_updatetime",0);
-                   //tv_updateTime.setText(String.valueOf(updatetime));
-                    Timestamp time = new Timestamp(updatetime);
-                    currentBox.setBox_update_time(time);
-                }
-                break;
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void setOnclick() {
-        fab_addCard.setOnClickListener(this);
-    }
-
-    private void initView() {
-        fab_addCard = findViewById(R.id.fab_boxdetail_addCard_);
-        recyclerView = findViewById(R.id.recyclerview_myboxdetail_);
-
-        bubble1 = new BubbleDialog(this);
-        bubbleDialog = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bubbledailog_boxinfo,null);
-        bubbleDialog.setBackgroundColor(Color.WHITE);
-        tv_createTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_create_time);
-        tv_updateTime = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_update_time);
-        tv_boxType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_box_type);
-        tv_cardType = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_card_type);
-        tv_boxname = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_boxname);
-        tv_authority = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_ifPublic);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab_boxdetail_addCard_:
-                if (currentBox.getBox_side().equals("双面")) {
-                    Intent intent = new Intent(BoxDetailActivity.this, AddCardActivity.class);
-                    intent.putExtra("currentBox", currentBox);
-                    //startActivity(intent);
-                    startActivityForResult(intent, ClickToAddCard);
-                } else {
-                    Intent intent = new Intent(BoxDetailActivity.this, AddOneSideCardActivity.class);
-                    intent.putExtra("currentBox", currentBox);
-                    //startActivity(intent);
-                    startActivityForResult(intent, ClickToAddCard);
-                }
-                break;
-        }
     }
 
     private void searchCardByBoxid(final String box_id) {

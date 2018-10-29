@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -40,7 +41,7 @@ public class AddOneSideBoxActivity extends AppCompatActivity implements  View.On
     private EditText et_BoxSide;
     private RadioGroup rg_BoxType, rg_ifPublic;
     private RadioButton rb_boxtype,rb_ifPublic;
-    private CardView fake_button_addBox;
+    private Button fake_button_addBox;
 
     private static final String TAG = "AddOneSideBoxActivity";
     private static final String AddBoxUrl = "http://"+ Constant.Server_IP +":8080/CardBox-Server/AddBox";
@@ -121,7 +122,7 @@ public class AddOneSideBoxActivity extends AppCompatActivity implements  View.On
         rg_ifPublic = (RadioGroup)findViewById(R.id.radiogroup_addOneSideBox_ifPublic);
         rb_boxtype = (RadioButton)findViewById(rg_BoxType.getCheckedRadioButtonId());
         rb_ifPublic = (RadioButton)findViewById(rg_ifPublic.getCheckedRadioButtonId());
-        fake_button_addBox = (CardView)findViewById(R.id.fake_button_addBox);
+        fake_button_addBox = findViewById(R.id.fake_button_addBox);
     }
 
     @Override

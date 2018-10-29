@@ -50,10 +50,12 @@ public class BrowseCurrentBoxCardActivity extends AppCompatActivity {
         //初始化
         initView();
         boolean IsOneSideCard =getIntent().getBooleanExtra("IsOneSideCard",false);
+        boolean IsOthers = getIntent().getBooleanExtra("IsOthers",false);
+        Log.d(TAG, "onCreate: 怎么！"+IsOthers);
 
         mViewPager = (ViewPager) findViewById(R.id.curretboxcard_viewpager);
         //mViewPager2= (ViewPager) findViewById(R.id.viewPager2);
-        mCardAdapter = new CardPagerAdapter(getApplicationContext(),IsOneSideCard);
+        mCardAdapter = new CardPagerAdapter(getApplicationContext(),IsOneSideCard,IsOthers);
         unmarkcardList = (List<Card>)getIntent().getSerializableExtra("AllCards");
         markcardList = (List<Card>)getIntent().getSerializableExtra("AllMarkCards");
         String flag = getIntent().getStringExtra("flag");

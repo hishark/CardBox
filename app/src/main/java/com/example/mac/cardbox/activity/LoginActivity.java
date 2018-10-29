@@ -27,6 +27,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private TextInputEditText et_login_username;
     private EditText et_login_password;
-    private CardView pretend_button_login;
+    private Button pretend_button_login;
     private TextView tv_clickToSignUp;
     private CheckBox cb_rememberPassword;
     private SharedPreferences sharedPreferences;
@@ -291,11 +292,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
-        pretend_button_login = (CardView)findViewById(R.id.pretend_Button_login);
-        tv_clickToSignUp = (TextView)findViewById(R.id.tv_clickToSignUp);
-        et_login_username = (TextInputEditText)findViewById(R.id.TextInputEditText_login_username);
-        et_login_password = (EditText)findViewById(R.id.TextInputEditText_login_password);
-        cb_rememberPassword = (CheckBox)findViewById(R.id.cb_remember_password);
+        pretend_button_login = findViewById(R.id.pretend_Button_login);
+        tv_clickToSignUp = findViewById(R.id.tv_clickToSignUp);
+        et_login_username = findViewById(R.id.TextInputEditText_login_username);
+        et_login_password = findViewById(R.id.TextInputEditText_login_password);
+        cb_rememberPassword = findViewById(R.id.cb_remember_password);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPreferences.edit();
     }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.activity.SelectedCardActivity;
 import com.example.mac.cardbox.activity.SelectedOneSideCardActivity;
+import com.example.mac.cardbox.activity.SelectedOneSideOthersCardActivity;
 import com.example.mac.cardbox.bean.Card;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class MyOneSideBoxDetailAdapter extends RecyclerView.Adapter<MyOneSideBox
 
     private List<Card> cardList;
     private Context context;
+    private boolean IsOthers;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View cardView;
@@ -32,9 +34,10 @@ public class MyOneSideBoxDetailAdapter extends RecyclerView.Adapter<MyOneSideBox
         }
     }
 
-    public MyOneSideBoxDetailAdapter(List<Card> list, Context con) {
+    public MyOneSideBoxDetailAdapter(List<Card> list, Context con,boolean flag) {
         cardList = list;
         context = con;
+        IsOthers = flag;
     }
 
     @Override
@@ -46,12 +49,23 @@ public class MyOneSideBoxDetailAdapter extends RecyclerView.Adapter<MyOneSideBox
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,SelectedOneSideCardActivity.class);
-                //得到点击位置
-                int position = holder.getAdapterPosition();
-                intent.putExtra("selectedCard",cardList.get(position));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-                context.startActivity(intent);
+                //判断一下是不是他人的盒子，是他人的就不可修改，本人的才可以修改（即有menu）
+                if(IsOthers) {
+                    Intent intent = new Intent(context,SelectedOneSideOthersCardActivity.class);
+                    //得到点击位置
+                    int position = holder.getAdapterPosition();
+                    intent.putExtra("selectedCard",cardList.get(position));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context,SelectedOneSideCardActivity.class);
+                    //得到点击位置
+                    int position = holder.getAdapterPosition();
+                    intent.putExtra("selectedCard",cardList.get(position));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                    context.startActivity(intent);
+                }
+
             }
         });
 

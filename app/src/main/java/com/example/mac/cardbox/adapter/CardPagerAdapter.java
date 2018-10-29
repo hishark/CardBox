@@ -49,6 +49,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private float mBaseElevation;
     private Context context;
     private boolean IsOneSideCard;
+    private boolean IsOthers;
 
     private FrameLayout mFlContainer[];
     private LinearLayout mFlCardBack[];
@@ -210,11 +211,12 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         return mCurrentView;
     }*/
 
-    public CardPagerAdapter(Context con,boolean flag) {
+    public CardPagerAdapter(Context con,boolean flag,boolean flag2) {
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
         context = con;
         IsOneSideCard = flag;
+        IsOthers = flag2;
 
     }
 
@@ -303,6 +305,11 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         frontContent.setText(item.getCard_front());
         backContent.setText(item.getCard_back());
 
+        //如果访问他人的盒子内的卡片，卡片就无法标记，隐藏书签
+        if (IsOthers) {
+            ImageButton bookmark = (ImageButton)view.findViewById(R.id.currentbox_Card_bookmark);
+            bookmark.setVisibility(View.INVISIBLE);
+        }
 
     }
 

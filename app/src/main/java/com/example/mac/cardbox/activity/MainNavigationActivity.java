@@ -41,6 +41,7 @@ import com.bumptech.glide.Glide;
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.bean.User;
 import com.example.mac.cardbox.fragment.MyCardBoxFragment;
+import com.example.mac.cardbox.fragment.MyFavouriteBoxFragment;
 import com.example.mac.cardbox.fragment.SearchBoxFragment;
 import com.example.mac.cardbox.fragment.SearchBoxerFragment;
 import com.example.mac.cardbox.fragment.SearchFragment;
@@ -95,6 +96,7 @@ public class MainNavigationActivity extends AppCompatActivity
 
     private MyCardBoxFragment myCardBoxFragment;
     private SearchFragment searchFragment;
+    private MyFavouriteBoxFragment myFavouriteBoxFragment;
 
     Handler handler = new Handler() {
         @Override
@@ -553,11 +555,15 @@ public class MainNavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_mycardbox) {
             myCardBoxFragment = new MyCardBoxFragment();
             replaceFragment(myCardBoxFragment);
+            getSupportActionBar().setTitle("我的卡盒");
         } else if (id == R.id.nav_mylove) {
-
+            myFavouriteBoxFragment = new MyFavouriteBoxFragment();
+            replaceFragment(myFavouriteBoxFragment);
+            getSupportActionBar().setTitle("我喜欢的卡盒");
         } else if (id == R.id.nav_search) {
             searchFragment = new SearchFragment();
             replaceFragment(searchFragment);
+            getSupportActionBar().setTitle("搜索");
         } else if (id == R.id.nav_notification) {
 
         } else if (id == R.id.nav_about) {

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.activity.SelectedCardActivity;
+import com.example.mac.cardbox.activity.SelectedOthersCardActivity;
 import com.example.mac.cardbox.bean.Card;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class MyBoxDetailAdapter extends RecyclerView.Adapter<MyBoxDetailAdapter.
 
     private List<Card> cardList;
     private Context context;
+    private boolean IsOthers;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View cardView;
@@ -34,9 +36,10 @@ public class MyBoxDetailAdapter extends RecyclerView.Adapter<MyBoxDetailAdapter.
         }
     }
 
-    public MyBoxDetailAdapter(List<Card> list, Context con) {
+    public MyBoxDetailAdapter(List<Card> list, Context con,boolean flag) {
         cardList = list;
         context = con;
+        IsOthers = flag;
     }
 
     @Override
@@ -48,12 +51,26 @@ public class MyBoxDetailAdapter extends RecyclerView.Adapter<MyBoxDetailAdapter.
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,SelectedCardActivity.class);
-                //得到点击位置
-                int position = holder.getAdapterPosition();
-                intent.putExtra("selectedCard",cardList.get(position));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-                context.startActivity(intent);
+
+                //如果是点击别人盒子里的卡片，那么就跳转到不可以编辑删除的卡片查看界面
+                if(IsOthers) {
+                    Intent intent = new Intent(context,SelectedOthersCardActivity.class);
+                    //得到点击位置
+                    int position = holder.getAdapterPosition();
+                    intent.putExtra("selectedCard",cardList.get(position));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                    context.startActivity(intent);
+                } else {
+                    //如果是自己的盒子，就跳转到可编辑可删除的卡片查看界面
+                    Intent intent = new Intent(context,SelectedCardActivity.class);
+                    //得到点击位置
+                    int position = holder.getAdapterPosition();
+                    intent.putExtra("selectedCard",cardList.get(position));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                    context.startActivity(intent);
+                }
+
+
             }
         });
 

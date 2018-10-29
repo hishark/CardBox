@@ -52,7 +52,7 @@ import okhttp3.Response;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CardView pretend_Button_signup;
+    private Button pretend_Button_signup;
     private TextInputEditText et_signup_username;
     private EditText et_sign_up_password;
     private EditText et_sign_up_assure_password;
@@ -335,7 +335,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * 视图初始化
      */
     private void initView() {
-        pretend_Button_signup = (CardView) findViewById(R.id.pretend_Button_signup);
+        pretend_Button_signup = findViewById(R.id.pretend_Button_signup);
         et_signup_username = (TextInputEditText) findViewById(R.id.TextInputEditText_signup_username);
         et_sign_up_password = (EditText) findViewById(R.id.EditText_signup_password);
         et_sign_up_assure_password = (EditText) findViewById(R.id.EditText_signup_assure_password);

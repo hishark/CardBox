@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -54,7 +55,8 @@ import okhttp3.Response;
 public class EditUserProfileActivity extends AppCompatActivity implements View.OnClickListener{
     private CircleImageView img_avatar;
     private EditText et_username;
-    private CardView fake_button_edit;
+    private EditText et_useraccount;
+    private Button fake_button_edit;
 
     private static final String AccessKey = "HBckSDRko17AS-s_Ufbb29bYfFMKMV7opdRnx-2C";//此处填七牛云的AccessKey
     private static final String SecretKey = "grNgIr009LWhQyfGvOGua8CPWFmlqfhySioKTrdk";//此处填七牛云的SecretKey
@@ -119,6 +121,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
                 .load(CurrentUserUtil.getCurrentUser().getUser_avatar())
                 .into(img_avatar);
         et_username.setText(CurrentUserUtil.getCurrentUser().getUser_nickname());
+        et_useraccount.setHint(CurrentUserUtil.getCurrentUser().getUser_account());
     }
 
     private void setOnclick() {
@@ -129,6 +132,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
     private void initView() {
         img_avatar = findViewById(R.id.img_editUserInfo_avatar);
         et_username = findViewById(R.id.et_EditUserInfo_username);
+        et_useraccount = findViewById(R.id.et_EditUserInfo_useraccount);
         fake_button_edit = findViewById(R.id.fake_button_EditUserInfo);
     }
 
