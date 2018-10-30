@@ -45,6 +45,7 @@
                 android:src="@drawable/ic_lovebox_cardicon_01" />
 
             <TextView
+                android:textStyle="bold"
                 android:id="@+id/tv_lovebox_boxname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

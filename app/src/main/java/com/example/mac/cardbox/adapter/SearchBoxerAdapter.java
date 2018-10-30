@@ -1,7 +1,9 @@
 package com.example.mac.cardbox.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mac.cardbox.R;
+import com.example.mac.cardbox.activity.OthersProfileActivity;
 import com.example.mac.cardbox.bean.Box;
 import com.example.mac.cardbox.bean.User;
 import com.example.mac.cardbox.util.CurrentUserUtil;
@@ -44,7 +47,24 @@ public class SearchBoxerAdapter extends RecyclerView.Adapter<SearchBoxerAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.searchboxer_item, viewGroup, false);
-        ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
+
+        holder.boxer_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                User user = mUserList.get(position);
+                if(!user.getUser_account().equals(CurrentUserUtil.getCurrentUser().getUser_account())) {
+                    Intent intent = new Intent(mcontext,OthersProfileActivity.class);
+                    intent.putExtra("selectedUser",user);
+                    mcontext.startActivity(intent);
+                } else {
+                    Snackbar.make(v,"你搜自己干什么咯",Snackbar.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         return holder;
     }
 

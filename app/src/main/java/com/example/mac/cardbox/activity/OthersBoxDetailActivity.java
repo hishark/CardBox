@@ -278,6 +278,11 @@ public class OthersBoxDetailActivity extends AppCompatActivity implements View.O
                 bubble1.show();
 
                 break;
+            case R.id.menu_othersboxdetail_userinfo:
+                Intent intent = new Intent(OthersBoxDetailActivity.this,OthersProfileActivity.class);
+                intent.putExtra("selectedUser",currentBox.getUser());
+                startActivity(intent);
+                break;
         }
         return true;
     }

@@ -47,10 +47,12 @@
                     android:layout_weight="1"
                     android:background="@null" />
 
-                <ImageView
+                <ImageButton
+                    style="@style/Base.Widget.AppCompat.ImageButton"
+                    android:backgroundTint="@color/colorWhite"
                     android:id="@+id/img_searchBoxer_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:src="@drawable/ic_nav_search_32_yellow_01" />
 
             </LinearLayout>
@@ -75,6 +77,7 @@
                 android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
+                    android:paddingTop="10dp"
                     android:id="@+id/recyclerView_searchBoxer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -4,27 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".activity.OthersProfileActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_othersProfile"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="250dp"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar_othersProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar_othersProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"/>
+            <ImageView
+                android:id="@+id/img_othersprofile_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar1" />
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_othersProfile"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -33,14 +43,134 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/avatar1"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/colorWhite"
-        app:layout_anchorGravity="bottom|end"
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_othersprofile_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        app:layout_anchor="@id/appbar_othersProfile"/>
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_menu_follow_01"
+        app:borderWidth="0dp"
+        app:fab_size="normal"
+        app:layout_anchor="@id/appbar_othersProfile"
+        app:layout_anchorGravity="bottom|end" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                style="@style/Base.Widget.AppCompat.ImageButton"
+                android:backgroundTint="@color/colorWhite"
+                android:id="@+id/othersProfile_sendMsg"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/ic_sendmsg_01"/>
+
+
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="盒子" />
+
+                    <TextView
+                        android:id="@+id/tv_othersProfile_boxnum"
+                        android:textStyle="bold"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="关注" />
+
+                    <TextView
+                        android:id="@+id/tv_othersFollowCount"
+                        android:textStyle="bold"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="粉丝" />
+
+                    <TextView
+                        android:id="@+id/tv_othersFollowerCount"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+
+        </LinearLayout>
+
+    <android.support.v7.widget.CardView
+            android:layout_margin="10dp"
+            app:cardCornerRadius="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:paddingTop="10dp"
+                android:id="@+id/recyclerview_othersProfile_boxlist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ public class SearchBoxFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Box> mBoxList;
     private Spinner spinner;
-    private ImageView img_searchBox_button;
+    private ImageButton img_searchBox_button;
     private TextView tv_warnInfo;
     private EditText et_searchBox;
 
@@ -337,7 +338,7 @@ public class SearchBoxFragment extends Fragment {
     private void initView() {
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView_searchBox);
         spinner = (Spinner)view.findViewById(R.id.spinner_searchBox);
-        img_searchBox_button = (ImageView)view.findViewById(R.id.img_searchBox_button);
+        img_searchBox_button = view.findViewById(R.id.img_searchBox_button);
         tv_warnInfo = (TextView)view.findViewById(R.id.tv_searchBox_warnInfo);
         et_searchBox = (EditText)view.findViewById(R.id.et_searchBox);
     }

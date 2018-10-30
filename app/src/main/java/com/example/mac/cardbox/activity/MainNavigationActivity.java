@@ -155,7 +155,7 @@ public class MainNavigationActivity extends AppCompatActivity
         Log.d(TAG, "onCreate: "+CurrentUserUtil.getCurrentUser().getUser_avatar());
         Glide.with(getApplicationContext()).load(CurrentUserUtil.getCurrentUser().getUser_avatar()).into(img_nav_userAvatar);
 
-        //点击头像
+        /*//点击头像
         img_nav_userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +192,7 @@ public class MainNavigationActivity extends AppCompatActivity
             public void onClick(View v) {
                 ShowEditNicknameDialog();
             }
-        });
+        });*/
     }
 
     private void ShowEditNicknameDialog() {
@@ -565,8 +565,7 @@ public class MainNavigationActivity extends AppCompatActivity
             replaceFragment(searchFragment);
             getSupportActionBar().setTitle("搜索");
         } else if (id == R.id.nav_notification) {
-            Intent intent = new Intent(MainNavigationActivity.this,OthersProfileActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_about) {
 
         }

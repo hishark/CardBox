@@ -52,17 +52,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
         <ImageButton
+            style="@style/Base.Widget.AppCompat.ImageButton"
             android:id="@+id/bt_finishOneInput"
             android:layout_width="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_add_onecard_check_yellow_01"/>
+            android:backgroundTint="@color/colorWhite"
+            android:src="@drawable/ic_add_onecard_check_yellow_01"/>
         <ImageButton
+            android:src="@drawable/ic_add_onecard_clear_yellow_02"
             android:id="@+id/bt_clearInput"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_add_onecard_clear_yellow_02"/>
-
+            style="@style/Base.Widget.AppCompat.ImageButton"
+            android:backgroundTint="@color/colorWhite"
+            android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 

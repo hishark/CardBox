@@ -55,16 +55,22 @@ public class MyCardBoxFragment extends Fragment {
     private RecyclerView recyclerView_mybox;
     private FrameLayout avatar_area;
     private TextView welcomeSpeech;
+    private TextView tv_boxnum,tv_followcount,tv_followercount;
+    private int followCount,followerCount;
 
     //悬浮按钮 暂时搁置
     private FloatingActionsMenu fab_button_menu_addBox;
     private com.getbase.floatingactionbutton.FloatingActionButton fab_button_addBox_oneside;
     private com.getbase.floatingactionbutton.FloatingActionButton fab_button_addBox_twoside;
 
+    private static final String GetFollowCountUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/GetFollowCount";
+    private static final String GetFollowerCountUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/GetFollowerCount";
     private static final String  searchBoxByUserAccountUrl= "http://" + Constant.Server_IP + ":8080/CardBox-Server/searchBoxByUserAccount";
     private static final String TAG = "MyCardBoxFragment";
     private static final int SearchSuccess_TAG = 1;
     private static final int SearchFail_TAG = 2;
+    private static final int GetFollowCountSuccess_TAG = 3;
+    private static final int GetFollowerCountSuccess_TAG = 4;
 
     private List<HashMap<String, Object>> boxlist=null;
     private HashMap<String, Object> box=null;
@@ -79,6 +85,7 @@ public class MyCardBoxFragment extends Fragment {
                     welcomeSpeech.setVisibility(View.INVISIBLE);
                     list = (List<HashMap<String, Object>>)msg.obj;
                     boxes = changeHashMapToBox(list);
+                    tv_boxnum.setText(String.valueOf(boxes.size()));
                     showAllSearchBox(boxes);
                     Log.d(TAG, "handleMessage: hello");
                     break;
@@ -88,6 +95,14 @@ public class MyCardBoxFragment extends Fragment {
                         boxes.clear();
                         myBoxAdapter.notifyDataSetChanged();
                     }
+                    break;
+                case GetFollowCountSuccess_TAG:
+                    followCount = (int)msg.obj;
+                    tv_followcount.setText(String.valueOf(followCount));
+                    break;
+                case GetFollowerCountSuccess_TAG:
+                    followerCount = (int)msg.obj;
+                    tv_followercount.setText(String.valueOf(followerCount));
                     break;
             }
         }
@@ -118,6 +133,9 @@ public class MyCardBoxFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        GetFollowCount(CurrentUserUtil.getCurrentUser().getUser_account());
+        GetFollowerCount(CurrentUserUtil.getCurrentUser().getUser_account());
 
         return view;
     }
@@ -278,7 +296,7 @@ public class MyCardBoxFragment extends Fragment {
                 .load(CurrentUserUtil.getCurrentUser().getUser_avatar())
                 .into(img_avatar);
         Log.d(TAG, "initUserTopInfo: "+CurrentUserUtil.getCurrentUser().getUser_avatar());
-        tv_account.setText(CurrentUserUtil.getCurrentUser().getUser_account());
+        //tv_account.setText(CurrentUserUtil.getCurrentUser().getUser_account());
         tv_nickname.setText(CurrentUserUtil.getCurrentUser().getUser_nickname());
     }
 
@@ -314,10 +332,111 @@ public class MyCardBoxFragment extends Fragment {
 
         img_avatar = (CircleImageView)view.findViewById(R.id.img_mybox_user_avatar);
         tv_nickname = (TextView)view.findViewById(R.id.tv_mybox_user_nickname);
-        tv_account = (TextView)view.findViewById(R.id.tv_mybox_user_account);
+        //tv_account = (TextView)view.findViewById(R.id.tv_mybox_user_account);
         recyclerView_mybox = (RecyclerView)view.findViewById(R.id.recyclerview_mybox);
         avatar_area = (FrameLayout)view.findViewById(R.id.framelayout_avatarArea);
         welcomeSpeech = view.findViewById(R.id.mycardbox_welcomespeech);
+        tv_followcount = view.findViewById(R.id.mycardbox_followcount);
+        tv_followercount = view.findViewById(R.id.mycardbox_followercount);
+        tv_boxnum = view.findViewById(R.id.mycardbox_boxnum);
+    }
+
+    private void GetFollowCount(String user_account) {
+        //开子线程访问服务器啦
+        //实例化OkHttpClient
+        OkHttpClient client = new OkHttpClient();
+        //创建表单请求体
+        FormBody.Builder formBody = new FormBody.Builder();
+        formBody.add("user_account", user_account);
+
+        //创建Request对象
+        Request request = new Request.Builder()
+                .url(GetFollowCountUrl)
+                .post(formBody.build())
+                .build();
+
+        /**
+         * Get的异步请求，不需要跟同步请求一样开启子线程
+         * 但是回调方法还是在子线程中执行的
+         * 所以要用到Handler传数据回主线程更新UI
+         */
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            //回调的方法执行在子线程
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = "";
+                if (response.isSuccessful()) {
+                    //从服务器取到Json键值对
+                    String temp = response.body().string();
+                    Log.d(TAG, "onResponse: temp:"+temp);
+                    try {
+                        JSONObject jsonObject = new JSONObject(temp);
+                        int count = Integer.parseInt(jsonObject.get("FollowCount").toString());
+                        Log.d(TAG, "onResponse: count="+count);
+                        Message msg = new Message();
+                        msg.what = GetFollowCountSuccess_TAG;
+                        msg.obj = count;
+                        handler.sendMessage(msg);
+
+                    } catch (JSONException a) {
+                    }
+                } else {
+                }
+            }
+        });
+    }
+
+    private void GetFollowerCount(String user_account) {
+        //开子线程访问服务器啦
+        //实例化OkHttpClient
+        OkHttpClient client = new OkHttpClient();
+        //创建表单请求体
+        FormBody.Builder formBody = new FormBody.Builder();
+        formBody.add("user_account", user_account);
+
+        //创建Request对象
+        Request request = new Request.Builder()
+                .url(GetFollowerCountUrl)
+                .post(formBody.build())
+                .build();
+
+        /**
+         * Get的异步请求，不需要跟同步请求一样开启子线程
+         * 但是回调方法还是在子线程中执行的
+         * 所以要用到Handler传数据回主线程更新UI
+         */
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            //回调的方法执行在子线程
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = "";
+                if (response.isSuccessful()) {
+                    //从服务器取到Json键值对
+                    String temp = response.body().string();
+                    Log.d(TAG, "onResponse: temp:"+temp);
+                    try {
+                        JSONObject jsonObject = new JSONObject(temp);
+                        int count = Integer.parseInt(jsonObject.get("FollowerCount").toString());
+                        Log.d(TAG, "onResponse: count="+count);
+                        Message msg = new Message();
+                        msg.what = GetFollowerCountSuccess_TAG;
+                        msg.obj = count;
+                        handler.sendMessage(msg);
+
+                    } catch (JSONException a) {
+                    }
+                } else {
+                }
+            }
+        });
     }
 
 

@@ -51,7 +51,7 @@ public class SearchBoxerFragment extends Fragment {
 
     private View view;
     private EditText et_searchBoxer;
-    private ImageView img_searchBoxer_button;
+    private ImageButton img_searchBoxer_button;
     private Spinner spinner;
     private RecyclerView recyclerView;
     private TextView tv_warnInfo;
@@ -328,7 +328,7 @@ public class SearchBoxerFragment extends Fragment {
 
     private void initView() {
         et_searchBoxer = (EditText) view.findViewById(R.id.et_searchBoxer);
-        img_searchBoxer_button = (ImageView) view.findViewById(R.id.img_searchBoxer_button);
+        img_searchBoxer_button =  view.findViewById(R.id.img_searchBoxer_button);
         spinner = (Spinner) view.findViewById(R.id.spinner_searchBoxer);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_searchBoxer);
         tv_warnInfo = (TextView) view.findViewById(R.id.tv_searchBoxer_warnInfo);

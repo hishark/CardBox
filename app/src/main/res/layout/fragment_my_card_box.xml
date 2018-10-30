@@ -74,11 +74,11 @@
                         android:text="喂鲨鱼哟"
                         android:textColor="@color/colorPrimary" />
 
-                    <TextView
+                <!--    <TextView
                         android:id="@+id/tv_mybox_user_account"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(hishark)" />
+                        android:text="(hishark)" />-->
 
                         <LinearLayout
                             android:gravity="center"
@@ -99,12 +99,13 @@
                                     android:text="盒子" />
 
                                 <TextView
+                                    android:id="@+id/mycardbox_boxnum"
                                     android:textStyle="bold"
                                     android:layout_marginRight="10dp"
                                     android:textColor="@color/colorPrimary"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="10" />
+                                    android:text="0" />
 
                             </LinearLayout>
 
@@ -121,12 +122,13 @@
                                     android:text="关注" />
 
                                 <TextView
+                                    android:id="@+id/mycardbox_followcount"
                                     android:textStyle="bold"
                                     android:layout_marginRight="10dp"
                                     android:textColor="@color/colorPrimary"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="2" />
+                                    android:text="0" />
 
                             </LinearLayout>
 
@@ -143,6 +145,7 @@
                                     android:text="粉丝" />
 
                                 <TextView
+                                    android:id="@+id/mycardbox_followercount"
                                     android:textStyle="bold"
                                     android:textColor="@color/colorPrimary"
                                     android:layout_width="wrap_content"
@@ -231,6 +234,7 @@
 
 
                 <android.support.v7.widget.RecyclerView
+                    android:paddingTop="10dp"
                     android:id="@+id/recyclerview_mybox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

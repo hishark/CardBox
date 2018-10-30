@@ -28,7 +28,7 @@ public class SearchFragment extends Fragment {
     private FragmentAdapter adapter;
     private List<Fragment> mFragments;
     private List<String> mTitles;
-    private String[] titles = new String[]{"搜索盒子","搜索盒友"};
+    private String[] titles = new String[]{"搜索盒子","搜索盒主"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
