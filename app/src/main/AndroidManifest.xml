@@ -65,12 +65,17 @@
         <activity
             android:name=".activity.AddOneSideCardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.OthersBoxDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.SelectedOthersCardActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.SelectedOneSideOthersCardActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.OthersBoxDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SelectedOthersCardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SelectedOneSideOthersCardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.OthersProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

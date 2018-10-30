@@ -58,7 +58,7 @@ public class MyFavouriteBoxFragment extends Fragment {
     List<HashMap<String, Object>> list;
     List<Box> boxes;
     MyFavouriteBoxAdapter myFavouriteBoxAdapter;
-    Handler handler = new Handler() {
+     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {

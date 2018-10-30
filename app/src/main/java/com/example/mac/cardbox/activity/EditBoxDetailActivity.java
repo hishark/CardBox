@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -41,7 +42,7 @@ public class EditBoxDetailActivity extends AppCompatActivity implements View.OnC
     private EditText et_BoxSide;
     private RadioGroup rg_BoxType, rg_ifPublic;
     private RadioButton rb_boxtype,rb_ifPublic;
-    private CardView fake_button_EditBox;
+    private Button fake_button_EditBox;
     private Box currentBox;
 
     private static final String TAG = "EditBoxDetailActivity";
@@ -176,7 +177,7 @@ public class EditBoxDetailActivity extends AppCompatActivity implements View.OnC
 
         rb_boxtype = (RadioButton)findViewById(rg_BoxType.getCheckedRadioButtonId());
         rb_ifPublic = (RadioButton)findViewById(rg_ifPublic.getCheckedRadioButtonId());
-        fake_button_EditBox = (CardView)findViewById(R.id.fake_button_EditBox);
+        fake_button_EditBox = findViewById(R.id.fake_button_EditBox);
     }
 
     @Override

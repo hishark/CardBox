@@ -35,11 +35,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="height" value="64" />
-                            <entry key="outputName" value="ic_lovebox_timeicon_01" />
+                            <entry key="outputName" value="ic_menu_follow_01" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\lovebox_timeicon_01.svg" />
-                            <entry key="width" value="64" />
+                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\menu_follow_01.svg" />
                           </map>
                         </option>
                       </PersistentState>

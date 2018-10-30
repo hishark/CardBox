@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             android:id="@+id/toolbar_othersboxDetail"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -29,7 +30,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:padding="5dp"
-            android:layout_marginTop="?attr/actionBarSize"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/recyclerview_othersboxdetail_"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

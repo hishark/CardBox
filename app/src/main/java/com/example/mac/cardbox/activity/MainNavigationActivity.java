@@ -565,7 +565,8 @@ public class MainNavigationActivity extends AppCompatActivity
             replaceFragment(searchFragment);
             getSupportActionBar().setTitle("搜索");
         } else if (id == R.id.nav_notification) {
-
+            Intent intent = new Intent(MainNavigationActivity.this,OthersProfileActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_about) {
 
         }

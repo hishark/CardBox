@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             android:id="@+id/toolbar_boxDetail"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -212,13 +213,10 @@
 
         </android.support.v7.widget.CardView>-->
 
-    <FrameLayout
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:padding="5dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/recyclerview_myboxdetail_"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -234,7 +232,7 @@
             android:layout_height="wrap_content" />
 
 
-    </FrameLayout>
+
     <android.support.design.widget.FloatingActionButton
         app:layout_behavior="com.example.mac.cardbox.behavior.ScrollAwareFABBehavior2"
         android:id="@+id/fab_boxdetail_addCard_"

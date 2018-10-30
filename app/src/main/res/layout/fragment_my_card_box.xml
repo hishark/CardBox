@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,78 +12,237 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ll_UserBriefInfo"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:cardCornerRadius="4dp"
             android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginRight="10dp">
 
-            <FrameLayout
-                android:id="@+id/framelayout_avatarArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:gravity="center"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/ll_UserBriefInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_mybox_user_avatar"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/avatar1"
-                    app:civ_border_color="@color/colorWhite"
-                    app:civ_border_width="2dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <ImageView
+                    <FrameLayout
+                        android:id="@+id/framelayout_avatarArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/img_mybox_user_avatar"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/avatar1"
+                            app:civ_border_color="@color/colorWhite"
+                            app:civ_border_width="2dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:src="@drawable/ic_edit_user_profile_03" />
+
+
+                    </FrameLayout>
+
+
+                    <LinearLayout
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="match_parent">
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/tv_mybox_user_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="喂鲨鱼哟"
+                        android:textColor="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tv_mybox_user_account"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(hishark)" />
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_margin="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:text="盒子" />
+
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:layout_marginRight="10dp"
+                                    android:textColor="@color/colorPrimary"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="10" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:text="关注" />
+
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:layout_marginRight="10dp"
+                                    android:textColor="@color/colorPrimary"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:text="粉丝" />
+
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textColor="@color/colorPrimary"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0" />
+
+                            </LinearLayout>
+
+
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <!--<View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#b9b9b9" />-->
+
+
+
+
+
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+<!-- TODO：还没想好要怎么排版，盒子分类展示先放在这里 -->
+       <!-- <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+          >
+
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:src="@drawable/ic_edit_user_profile_03" />
+                    android:text="卡盒"
+                    android:layout_marginRight="5dp"/>
+
+                <Spinner
+                    style="@style/Base.Widget.AppCompat.Spinner"
+                    android:entries="@array/search_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
 
-            </FrameLayout>
+                </Spinner>
 
-            <TextView
-                android:id="@+id/tv_mybox_user_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="喂鲨鱼哟"
-                android:textColor="#3d3939" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_mybox_user_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hishark" />
-
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>-->
 
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            app:cardCornerRadius="8dp">
+            app:cardCornerRadius="4dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_mybox"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_mybox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
                 <TextView
                     android:id="@+id/mycardbox_welcomespeech"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:visibility="invisible"
                     android:text="你还没有创建过卡盒噢~\n点击右下角的按钮创建一个吧\n(ง •_•)ง"
-                    android:layout_height="wrap_content" />
+                    android:visibility="invisible" />
 
 
             </FrameLayout>
@@ -129,8 +287,6 @@
             fab:fab_size="mini"
             fab:fab_title="创建双面卡盒" />
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>
