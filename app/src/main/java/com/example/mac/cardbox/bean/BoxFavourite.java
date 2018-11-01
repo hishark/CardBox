@@ -1,8 +1,9 @@
 package com.example.mac.cardbox.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class BoxFavourite {
+public class BoxFavourite implements Serializable {
     Box box;
     User user;
     Timestamp favourite_time;

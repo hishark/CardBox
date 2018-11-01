@@ -1,8 +1,9 @@
 package com.example.mac.cardbox.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class UserRelation {
+public class UserRelation  implements Serializable {
     User user_follow;
     User user_befollowed;
     Timestamp follow_time;

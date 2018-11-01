@@ -19,8 +19,8 @@
 
         <item
             android:id="@+id/nav_myfollow"
-            android:icon="@drawable/ic_nav_myfollow_32_01"
-            android:title="我关注的盒主" />
+            android:icon="@drawable/ic_follow_star_01"
+            android:title="我的关注" />
 
         <item
             android:id="@+id/nav_myfollower"
@@ -28,24 +28,31 @@
             android:title="我的粉丝" />
 
         <item
-            android:id="@+id/nav_notification"
-            android:icon="@drawable/ic_nav_info_32_yellow_01"
-            android:title="往来消息" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_nav_logout_32_yellow_01"
-            android:title="注销" />
-
+            android:id="@+id/nav_sendBox"
+            android:icon="@drawable/ic_send_box_02"
+            android:title="发件箱" />
 
         <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_shark_01"
-            android:title="关于" />
+            android:id="@+id/nav_receiveBox"
+            android:icon="@drawable/ic_receive_box_02"
+            android:title="收件箱" />
+
+
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="其他">
         <menu>
             <!--这里直接放item即可，暂时没啥想放的，搁置-->
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_shark_01"
+                android:title="关于" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_nav_logout_32_yellow_01"
+                android:title="注销" />
         </menu>
     </item>
 

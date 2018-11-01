@@ -77,12 +77,13 @@
                 android:id="@+id/othersProfile_sendMsg"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="15dp"
                 android:src="@drawable/ic_sendmsg_01"/>
 
 
                 <LinearLayout
-                    android:layout_margin="5dp"
+                    style="@style/Base.Widget.AppCompat.ImageButton"
+                    android:backgroundTint="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -105,7 +106,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="5dp"
+                    android:id="@+id/ll_othersprofile_follow"
+                    style="@style/Base.Widget.AppCompat.ImageButton"
+                    android:backgroundTint="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -128,7 +131,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="5dp"
+                    android:id="@+id/ll_othersprofile_follower"
+                    style="@style/Base.Widget.AppCompat.ImageButton"
+                    android:backgroundTint="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,11 +41,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.bean.User;
+import com.example.mac.cardbox.bean.UserRelation;
+import com.example.mac.cardbox.fragment.AboutFragment;
 import com.example.mac.cardbox.fragment.MyCardBoxFragment;
 import com.example.mac.cardbox.fragment.MyFavouriteBoxFragment;
+import com.example.mac.cardbox.fragment.ReceiveMessageFragment;
 import com.example.mac.cardbox.fragment.SearchBoxFragment;
 import com.example.mac.cardbox.fragment.SearchBoxerFragment;
 import com.example.mac.cardbox.fragment.SearchFragment;
+import com.example.mac.cardbox.fragment.SendMessageFragment;
 import com.example.mac.cardbox.util.Constant;
 import com.example.mac.cardbox.util.CurrentUserUtil;
 import com.example.mac.cardbox.util.qiniuyun.Auth;
@@ -58,6 +63,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -97,6 +103,9 @@ public class MainNavigationActivity extends AppCompatActivity
     private MyCardBoxFragment myCardBoxFragment;
     private SearchFragment searchFragment;
     private MyFavouriteBoxFragment myFavouriteBoxFragment;
+    private AboutFragment aboutFragment;
+    private SendMessageFragment sendMessageFragment;
+    private ReceiveMessageFragment receiveMessageFragment;
 
     Handler handler = new Handler() {
         @Override
@@ -564,10 +573,28 @@ public class MainNavigationActivity extends AppCompatActivity
             searchFragment = new SearchFragment();
             replaceFragment(searchFragment);
             getSupportActionBar().setTitle("搜索");
-        } else if (id == R.id.nav_notification) {
-
+        } else if (id==R.id.nav_myfollow) {
+            Intent intent = new Intent(MainNavigationActivity.this,UserRelationActivity.class);
+            intent.putExtra("RelationType","Follow");
+            intent.putExtra("SearchUser",CurrentUserUtil.getCurrentUser());
+            startActivity(intent);
+        }else if (id == R.id.nav_myfollower) {
+            Intent intent = new Intent(MainNavigationActivity.this,UserRelationActivity.class);
+            intent.putExtra("RelationType","Follower");
+            intent.putExtra("SearchUser",CurrentUserUtil.getCurrentUser());
+            startActivity(intent);
         } else if (id == R.id.nav_about) {
-
+            aboutFragment = new AboutFragment();
+            replaceFragment(aboutFragment);
+            getSupportActionBar().setTitle("关于");
+        } else if (id == R.id.nav_sendBox) {
+            sendMessageFragment = new SendMessageFragment();
+            replaceFragment(sendMessageFragment);
+            getSupportActionBar().setTitle("发件箱");
+        } else if (id == R.id.nav_receiveBox) {
+            receiveMessageFragment = new ReceiveMessageFragment();
+            replaceFragment(receiveMessageFragment);
+            getSupportActionBar().setTitle("收件箱");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,8 @@ import com.example.mac.cardbox.R;
 import com.example.mac.cardbox.activity.AddOneSideBoxActivity;
 import com.example.mac.cardbox.activity.AddTwoSideBoxActivity;
 import com.example.mac.cardbox.activity.EditUserProfileActivity;
+import com.example.mac.cardbox.activity.MainNavigationActivity;
+import com.example.mac.cardbox.activity.UserRelationActivity;
 import com.example.mac.cardbox.adapter.MyBoxAdapter;
 import com.example.mac.cardbox.bean.Box;
 import com.example.mac.cardbox.bean.User;
@@ -57,6 +62,7 @@ public class MyCardBoxFragment extends Fragment {
     private TextView welcomeSpeech;
     private TextView tv_boxnum,tv_followcount,tv_followercount;
     private int followCount,followerCount;
+    private LinearLayout ll_boxNum, ll_followNum, ll_followerNum;
 
     //悬浮按钮 暂时搁置
     private FloatingActionsMenu fab_button_menu_addBox;
@@ -137,6 +143,26 @@ public class MyCardBoxFragment extends Fragment {
         GetFollowCount(CurrentUserUtil.getCurrentUser().getUser_account());
         GetFollowerCount(CurrentUserUtil.getCurrentUser().getUser_account());
 
+        ll_followNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),UserRelationActivity.class);
+                intent.putExtra("RelationType","Follow");
+                intent.putExtra("SearchUser",CurrentUserUtil.getCurrentUser());
+                startActivity(intent);
+            }
+        });
+
+        ll_followerNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),UserRelationActivity.class);
+                intent.putExtra("RelationType","Follower");
+                intent.putExtra("SearchUser",CurrentUserUtil.getCurrentUser());
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
@@ -147,6 +173,10 @@ public class MyCardBoxFragment extends Fragment {
 
         //搜索添加盒子后用户的所有盒子~
         searchAllMyBox(CurrentUserUtil.getCurrentUser().getUser_account());
+
+        //得到关注数和粉丝数
+        GetFollowCount(CurrentUserUtil.getCurrentUser().getUser_account());
+        GetFollowerCount(CurrentUserUtil.getCurrentUser().getUser_account());
         super.onResume();
     }
 
@@ -339,6 +369,10 @@ public class MyCardBoxFragment extends Fragment {
         tv_followcount = view.findViewById(R.id.mycardbox_followcount);
         tv_followercount = view.findViewById(R.id.mycardbox_followercount);
         tv_boxnum = view.findViewById(R.id.mycardbox_boxnum);
+
+        ll_boxNum = view.findViewById(R.id.ll_mycardbox_boxNum);
+        ll_followNum = view.findViewById(R.id.ll_mycardbox_followNum);
+        ll_followerNum = view.findViewById(R.id.ll_mycardbox_followerNum);
     }
 
     private void GetFollowCount(String user_account) {

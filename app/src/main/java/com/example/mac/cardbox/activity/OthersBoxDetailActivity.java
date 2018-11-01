@@ -73,8 +73,10 @@ public class OthersBoxDetailActivity extends AppCompatActivity implements View.O
     private static final int AddBoxToFavouriteSuccess_TAG = 2;
     private static final int FavouriteAlreadyExist_TAG = 3;
     private static final int DeleteFavouriteSuccess_TAG = 4;
+    private static final int SearchFail_TAG = 5;
 
     private BoxFavourite box_favourite;
+    private TextView tv_hint;
 
     BubbleDialog bubble1;
     View bubbleDialog;
@@ -85,7 +87,11 @@ public class OthersBoxDetailActivity extends AppCompatActivity implements View.O
             switch (msg.what) {
                 case SearchSuccess_TAG:
                     List<HashMap<String, Object>> list = (List<HashMap<String, Object>>)msg.obj;
+                    tv_hint.setVisibility(View.INVISIBLE);
                     showAllSearchCard(changeHashMapToCard(list));
+                    break;
+                case SearchFail_TAG:
+                    tv_hint.setVisibility(View.VISIBLE);
                     break;
                 case AddBoxToFavouriteSuccess_TAG:
                     Snackbar.make(recyclerView,"已添加至你喜欢的卡盒列表",Snackbar.LENGTH_SHORT).show();
@@ -307,6 +313,7 @@ public class OthersBoxDetailActivity extends AppCompatActivity implements View.O
         tv_boxname = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_boxname);
         tv_authority = bubbleDialog.findViewById(R.id.bubbledialog_myboxdetail_ifPublic);
         tv_username = bubbleDialog.findViewById(R.id.bubbledialog_otherboxdetail_username);
+        tv_hint = findViewById(R.id.tv_othersboxdetail_hint);
     }
 
     @Override
@@ -480,7 +487,11 @@ public class OthersBoxDetailActivity extends AppCompatActivity implements View.O
                     msg.obj = cardList;
                     handler.sendMessage(msg);
                 } else {
-
+                    //通过handler传递数据到主线程
+                    Message msg = new Message();
+                    msg.what = SearchFail_TAG;
+                    msg.obj = cardList;
+                    handler.sendMessage(msg);
                 }
 
 

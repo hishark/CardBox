@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_receiveMsg_userAvatar"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/avatar1"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/tv_receiveMsg_userNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="5dp"
+            android:text="喂鲨鱼" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp">
+
+
+            <TextView
+                android:id="@+id/tv_receiveMsg_content"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/dialog_white_02"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="~~~~~" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:gravity="left"
+            android:id="@+id/tv_receiveMsg_sendTime"
+            android:layout_gravity="bottom|left"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_height="wrap_content"
+            android:text="2018-09-09 09:09:09"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

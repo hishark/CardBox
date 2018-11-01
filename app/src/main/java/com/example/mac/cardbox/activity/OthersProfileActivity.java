@@ -1,5 +1,7 @@
 package com.example.mac.cardbox.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -10,6 +12,7 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,8 +22,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -64,12 +69,17 @@ public class OthersProfileActivity extends AppCompatActivity {
     private TextView tv_followcount;
     private TextView tv_followercount;
     private TextView tv_boxcount;
+    private LinearLayout ll_follow, ll_follower;
+    private EditText dialog_et_Message;
+    private ImageButton dialog_button_sendMsg;
+    private AlertDialog dialog;
 
-    private static final String  searchBoxByUserAccountUrl= "http://" + Constant.Server_IP + ":8080/CardBox-Server/searchBoxByUserAccount";
+    private static final String searchBoxByUserAccountUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/searchBoxByUserAccount";
     private static final String AddUserRelationUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/AddUserRelation";
     private static final String DeleteUserRelationUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/DeleteUserRelation";
     private static final String GetFollowCountUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/GetFollowCount";
     private static final String GetFollowerCountUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/GetFollowerCount";
+    private static final String AddUserMessageUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/AddUserMessage";
 
     private static final String TAG = "OthersProfileActivity";
     private static final int SearchBoxSuccess_TAG = 1;
@@ -79,9 +89,11 @@ public class OthersProfileActivity extends AppCompatActivity {
     private static final int DeleteUserRelationSuccess_TAG = 5;
     private static final int GetFollowCountSuccess_TAG = 6;
     private static final int GetFollowerCountSuccess_TAG = 7;
+    private static final int AddUserMessageSuccess_TAG = 8;
+    private static final int AddUserMessageFail_TAG = 9;
 
-    private List<HashMap<String, Object>> boxlist=null;
-    private HashMap<String, Object> box=null;
+    private List<HashMap<String, Object>> boxlist = null;
+    private HashMap<String, Object> box = null;
     private List<HashMap<String, Object>> list;
     private List<Box> boxes;
     private OthersProfileBoxAdapter othersProfileBoxAdapte;
@@ -94,7 +106,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SearchBoxSuccess_TAG:
-                    list = (List<HashMap<String, Object>>)msg.obj;
+                    list = (List<HashMap<String, Object>>) msg.obj;
                     boxes = changeHashMapToBox(list);
                     showAllSearchBox(boxes);
                     tv_boxcount.setText(String.valueOf(boxes.size()));
@@ -103,10 +115,12 @@ public class OthersProfileActivity extends AppCompatActivity {
                 case SearchBoxFail_TAG:
                     break;
                 case AddUserRelationSuccess_TAG:
-                    Snackbar.make(recyclerView,"关注成功",BaseTransientBottomBar.LENGTH_SHORT).show();
+                    Snackbar.make(recyclerView, "关注成功", BaseTransientBottomBar.LENGTH_SHORT).show();
+                    //成功关注之后火速更新顶上的数字
+                    initTopView();
                     break;
                 case AddUserRelationFail_TAG:
-                    Snackbar.make(recyclerView,"你已经关注TA啦~",BaseTransientBottomBar.LENGTH_SHORT)
+                    Snackbar.make(recyclerView, "你已经关注TA啦~", BaseTransientBottomBar.LENGTH_SHORT)
                             .setAction("取消关注", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -120,16 +134,21 @@ public class OthersProfileActivity extends AppCompatActivity {
                             .show();
                     break;
                 case DeleteUserRelationSuccess_TAG:
-                    Snackbar.make(recyclerView,"已取消关注（；´д｀）ゞ",BaseTransientBottomBar.LENGTH_SHORT).show();
+                    Snackbar.make(recyclerView, "已取消关注（；´д｀）ゞ", BaseTransientBottomBar.LENGTH_SHORT).show();
+                    //取消关注之后火速更新顶上的数字
+                    initTopView();
                     break;
                 case GetFollowCountSuccess_TAG:
-                    followCount = (int)msg.obj;
+                    followCount = (int) msg.obj;
                     tv_followcount.setText(String.valueOf(followCount));
                     break;
                 case GetFollowerCountSuccess_TAG:
-                    followerCount = (int)msg.obj;
+                    followerCount = (int) msg.obj;
                     tv_followercount.setText(String.valueOf(followerCount));
                     break;
+                case AddUserMessageSuccess_TAG:
+                    dialog.dismiss();
+                    Snackbar.make(recyclerView, "邮件发送成功~慢慢等TA的回信吧(o゜▽゜)o☆", Snackbar.LENGTH_SHORT).show();
             }
         }
     };
@@ -143,7 +162,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_othersProfile);
         setSupportActionBar(toolbar);
 
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsingToolbar_othersProfile);
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar_othersProfile);
 
         //取消原有标题
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -152,15 +171,13 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         initView();
 
-        currentUser = (User)getIntent().getSerializableExtra("selectedUser");
+        currentUser = (User) getIntent().getSerializableExtra("selectedUser");
         Glide.with(getApplicationContext()).load(currentUser.getUser_avatar()).into(userAvatar);
 
         getSupportActionBar().setTitle(currentUser.getUser_nickname());
 
         searchAllBox(currentUser.getUser_account());
 
-        //初始化用户社交信息
-        initTopView();
 
         //点击星星关注用户
         fab_follow.setOnClickListener(new View.OnClickListener() {
@@ -179,10 +196,114 @@ public class OthersProfileActivity extends AppCompatActivity {
         button_sendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Snackbar.make(v,"发私信啦~",BaseTransientBottomBar.LENGTH_SHORT).show();
+                ShowSendMsgDialog();
             }
         });
+
+        //查看关注人列表
+        ll_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OthersProfileActivity.this, UserRelationActivity.class);
+                intent.putExtra("RelationType", "Follow");
+                intent.putExtra("SearchUser", currentUser);
+                startActivity(intent);
+            }
+        });
+
+        //查看粉丝列表
+        ll_follower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OthersProfileActivity.this, UserRelationActivity.class);
+                intent.putExtra("RelationType", "Follower");
+                intent.putExtra("SearchUser", currentUser);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void ShowSendMsgDialog() {
+        //加载自定义的login.xml到程序中
+        final LinearLayout ll = (LinearLayout) getLayoutInflater().inflate(R.layout.layout_send_message, null);
+
+        dialog_et_Message = ll.findViewById(R.id.et_sendmessage_Msg);
+        dialog_button_sendMsg = ll.findViewById(R.id.button_sendmessage_Send);
+
+        dialog = new AlertDialog.Builder(OthersProfileActivity.this)
+                .setTitle("发送邮件")
+                .setCancelable(true)
+                .setView(ll)
+                .create();
+        dialog.show();
+
+        dialog_button_sendMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialog_et_Message.getText().toString().length() == 0) {
+                    Snackbar.make(v, "发空邮件是会挨打的", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    AddUserMessage(CurrentUserUtil.getCurrentUser(), currentUser, dialog_et_Message.getText().toString().trim());
+                }
+            }
+        });
+    }
+
+    private void AddUserMessage(User sender, User receriver, String message) {
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        //创建表单请求体
+        /**
+         * key值与服务器端controller中request.getParameter中的key一致
+         */
+        RequestBody formBody = new FormBody.Builder()
+                .add("user_sender_account", sender.getUser_account())
+                .add("user_receiver_account", receriver.getUser_account())
+                .add("message_content", message)
+                .add("message_send_time", String.valueOf(System.currentTimeMillis()))
+                .build();
+
+        Log.d(TAG, "AddUserMessage: 发送人和接收人：" + sender.getUser_account() + "," + receriver.getUser_account());
+
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url(AddUserMessageUrl)
+                .post(formBody)
+                .build();
+
+        /**
+         * Get的异步请求，不需要跟同步请求一样开启子线程
+         * 但是回调方法还是在子线程中执行的
+         * 所以要用到Handler传数据回主线程更新UI
+         */
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            //回调的方法执行在子线程
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: 邮件发送成功");
+                    Message msg = new Message();
+                    msg.what = AddUserMessageSuccess_TAG;
+                    handler.sendMessage(msg);
+                } else {
+                    Message msg = new Message();
+                    msg.what = AddUserMessageFail_TAG;
+                    handler.sendMessage(msg);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        //初始化用户社交信息
+        initTopView();
+        super.onResume();
     }
 
     //初始化用户社交信息
@@ -222,11 +343,11 @@ public class OthersProfileActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     //从服务器取到Json键值对
                     String temp = response.body().string();
-                    Log.d(TAG, "onResponse: temp:"+temp);
+                    Log.d(TAG, "onResponse: temp:" + temp);
                     try {
                         JSONObject jsonObject = new JSONObject(temp);
                         int count = Integer.parseInt(jsonObject.get("FollowCount").toString());
-                        Log.d(TAG, "onResponse: count="+count);
+                        Log.d(TAG, "onResponse: count=" + count);
                         Message msg = new Message();
                         msg.what = GetFollowCountSuccess_TAG;
                         msg.obj = count;
@@ -271,11 +392,11 @@ public class OthersProfileActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     //从服务器取到Json键值对
                     String temp = response.body().string();
-                    Log.d(TAG, "onResponse: temp:"+temp);
+                    Log.d(TAG, "onResponse: temp:" + temp);
                     try {
                         JSONObject jsonObject = new JSONObject(temp);
                         int count = Integer.parseInt(jsonObject.get("FollowerCount").toString());
-                        Log.d(TAG, "onResponse: count="+count);
+                        Log.d(TAG, "onResponse: count=" + count);
                         Message msg = new Message();
                         msg.what = GetFollowerCountSuccess_TAG;
                         msg.obj = count;
@@ -299,7 +420,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     private List<Box> changeHashMapToBox(List<HashMap<String, Object>> HashMaplist) {
         int length = HashMaplist.size();
         List<Box> boxList = new ArrayList<Box>();
-        for(int i=0;i<length;i++) {
+        for (int i = 0; i < length; i++) {
             Box box = new Box();
             box.setBox_name(HashMaplist.get(i).get("box_name").toString());
             box.setBox_create_time((Timestamp) HashMaplist.get(i).get("box_create_time"));
@@ -309,7 +430,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             box.setBox_side(HashMaplist.get(i).get("box_side").toString());
             box.setBox_type(HashMaplist.get(i).get("box_type").toString());
             box.setBox_authority(HashMaplist.get(i).get("box_authority").toString());
-            box.setUser((User)HashMaplist.get(i).get("user"));
+            box.setUser((User) HashMaplist.get(i).get("user"));
             box.setBox_cardnum((Integer) HashMaplist.get(i).get("box_cardnum"));
 
             boxList.add(box);
@@ -326,6 +447,8 @@ public class OthersProfileActivity extends AppCompatActivity {
         tv_followcount = findViewById(R.id.tv_othersFollowCount);
         tv_followercount = findViewById(R.id.tv_othersFollowerCount);
         tv_boxcount = findViewById(R.id.tv_othersProfile_boxnum);
+        ll_follow = findViewById(R.id.ll_othersprofile_follow);
+        ll_follower = findViewById(R.id.ll_othersprofile_follower);
     }
 
     @Override
@@ -370,32 +493,32 @@ public class OthersProfileActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     //从服务器取到Json键值对{“key”:“value”}
                     String temp = response.body().string();
-                    try{
-                        JSONArray jsonArray=new JSONArray(temp);
-                        boxlist=new ArrayList<HashMap<String, Object>>();
+                    try {
+                        JSONArray jsonArray = new JSONArray(temp);
+                        boxlist = new ArrayList<HashMap<String, Object>>();
 
-                        for(int i=0;i<jsonArray.length();i++){
-                            JSONObject jsonObject=(JSONObject)jsonArray.get(i);
-                            box=new HashMap<String, Object>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                            box = new HashMap<String, Object>();
 
                             box.put("box_id", jsonObject.get("box_id"));
-                            box.put("box_name",jsonObject.get("box_name"));
+                            box.put("box_name", jsonObject.get("box_name"));
                             box.put("box_type", jsonObject.get("box_type"));
                             box.put("box_love", jsonObject.get("box_love"));
                             box.put("box_side", jsonObject.get("box_side"));
                             box.put("box_authority", jsonObject.get("box_authority"));
-                            box.put("box_cardnum",jsonObject.get("box_cardnum"));
+                            box.put("box_cardnum", jsonObject.get("box_cardnum"));
 
                             /**
                              * 拿到了User的json数据
                              * 利用Gson解析Json键值对
                              */
                             String userresult = jsonObject.get("user").toString();
-                            Log.d(TAG, "onResponse: "+userresult);
+                            Log.d(TAG, "onResponse: " + userresult);
                             Gson gson = new Gson();
                             User user = gson.fromJson(userresult, User.class);
-                            Log.d(TAG, "onResponse: "+user.getUser_nickname());
-                            box.put("user",user);
+                            Log.d(TAG, "onResponse: " + user.getUser_nickname());
+                            box.put("user", user);
 
                             //timeresult是从数据库插到的dpost_time字段，类型为timestamp
                             //从数据库读出来长这个样子：存到timeresult里面
@@ -404,21 +527,21 @@ public class OthersProfileActivity extends AppCompatActivity {
 
                             //利用fastJson——JSON取出timeresult里面的time字段，也就是13位的时间戳
                             long time = JSON.parseObject(timeresult).getLong("time");
-                            Log.d(TAG, "onResponse: 创建时间"+timeresult);
+                            Log.d(TAG, "onResponse: 创建时间" + timeresult);
                             Timestamp trueTime = new Timestamp(time);
 
                             //把时间put进daike
-                            box.put("box_create_time",trueTime);
+                            box.put("box_create_time", trueTime);
 
                             String timeresult2 = jsonObject.get("box_update_time").toString();
-                            Log.d(TAG, "onResponse: 更新时间"+timeresult2);
+                            Log.d(TAG, "onResponse: 更新时间" + timeresult2);
 
                             //利用fastJson——JSON取出timeresult里面的time字段，也就是13位的时间戳
                             long time2 = JSON.parseObject(timeresult2).getLong("time");
                             Timestamp trueTime2 = new Timestamp(time2);
 
                             //把时间put进daike
-                            box.put("box_update_time",trueTime2);
+                            box.put("box_update_time", trueTime2);
 
 
                             //将13位时间戳转换为年月日时分秒！
@@ -430,7 +553,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                             boxlist.add(box);
                         }
 
-                    }catch (JSONException a){
+                    } catch (JSONException a) {
 
                     }
 
@@ -483,12 +606,12 @@ public class OthersProfileActivity extends AppCompatActivity {
             //回调的方法执行在子线程
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: 关注成功");
                     Message msg = new Message();
                     msg.what = AddUserRelationSuccess_TAG;
                     handler.sendMessage(msg);
-                }else{
+                } else {
                     Message msg = new Message();
                     msg.what = AddUserRelationFail_TAG;
                     handler.sendMessage(msg);

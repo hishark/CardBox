@@ -9,17 +9,18 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_searchBoxer_boxeritem"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="center"
         android:src="@drawable/avatar1" />
 
     <TextView
         android:gravity="center"
         android:id="@+id/tv_searchBoxer_boxeritem"
-        android:layout_width="80dp"
-        android:maxLines="1"
+        android:layout_width="90dp"
+        android:lines="2"
         android:ellipsize="end"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="小七" />

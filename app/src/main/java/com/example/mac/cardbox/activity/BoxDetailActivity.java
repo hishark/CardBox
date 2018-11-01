@@ -75,12 +75,15 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
     private static final String TAG = "BoxDetailActivity";
     private static final String DeleteBoxUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/DeleteBox";
     private static final String SearchCardByBoxIDUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/SearchCardByBoxID";
+    private static final String ClearBoxUrl = "http://" + Constant.Server_IP + ":8080/CardBox-Server/ClearBox";
 
     private static final int ClickToEdit = 1;
     private static final int DeleteBoxSuccess_TAG = 2;
     private static final int SearchSuccess_TAG = 3;
     private static final int ClickToAddCard = 4;
     private static final int SearchFail_TAG = 5;
+    private static final int DeleteBoxFail_TAG = 6;
+    private static final int ClearBoxSuccess_TAG = 7;
     List<HashMap<String, Object>> list;
     List<Card> cards;
     BubbleDialog bubble1;
@@ -94,6 +97,13 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                 case DeleteBoxSuccess_TAG:
                     Toast.makeText(BoxDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                     finish();
+                    break;
+                case DeleteBoxFail_TAG:
+                    //Log.d(TAG, "handleMessage: 删除失败哦");
+                    //ClearAllCardOfBox(currentBox.getBox_id());
+                    break;
+                case ClearBoxSuccess_TAG:
+                    deleteBoxFromServer(currentBox.getBox_id().toString());
                     break;
                 case SearchSuccess_TAG:
                     welcomespeech.setVisibility(View.INVISIBLE);
@@ -117,6 +127,51 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
             super.handleMessage(msg);
         }
     };
+
+    private void ClearAllCardOfBox(String box_id) {
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        //创建表单请求体
+        /**
+         * key值与服务器端controller中request.getParameter中的key一致
+         */
+
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("box_id", box_id)
+                .build();
+
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url(ClearBoxUrl)
+                .post(formBody)
+                .build();
+
+        /**
+         * Get的异步请求，不需要跟同步请求一样开启子线程
+         * 但是回调方法还是在子线程中执行的
+         * 所以要用到Handler传数据回主线程更新UI
+         */
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            //回调的方法执行在子线程
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: 卡盒清空成功啦");
+                    Message msg = new Message();
+                    msg.what = ClearBoxSuccess_TAG;
+                    handler.sendMessage(msg);
+                } else {
+
+                }
+            }
+        });
+    }
 
     private void showAllSearchCard(List<Card> cardList) {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -336,7 +391,9 @@ public class BoxDetailActivity extends AppCompatActivity implements View.OnClick
                     msg.what = DeleteBoxSuccess_TAG;
                     handler.sendMessage(msg);
                 } else {
-
+                    Message msg = new Message();
+                    msg.what = DeleteBoxFail_TAG;
+                    handler.sendMessage(msg);
                 }
             }
         });

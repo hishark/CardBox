@@ -74,9 +74,11 @@
         <activity
             android:name=".activity.SelectedOneSideOthersCardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.OthersProfileActivity"
+        <activity
+            android:name=".activity.OthersProfileActivity"
             android:theme="@style/OthersProfileTheme" />
-
+        <activity android:name=".activity.UserRelationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

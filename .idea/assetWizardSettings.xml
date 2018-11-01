@@ -36,9 +36,9 @@
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
                             <entry key="height" value="32" />
-                            <entry key="outputName" value="ic_shark_01" />
+                            <entry key="outputName" value="ic_follow_star_01" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\shark_01.svg" />
+                            <entry key="sourceFile" value="D:\ImageLibrary\CardBox\follow_star_01.svg" />
                             <entry key="width" value="32" />
                           </map>
                         </option>

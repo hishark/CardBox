@@ -52,4 +52,13 @@
         android:src="@drawable/ic_favorite_white_24dp"
         />
 
+    <TextView
+        android:id="@+id/tv_othersboxdetail_hint"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:text="这位朋友还没有创建过卡片( ╯□╰ )"
+        android:layout_height="wrap_content" />
+
 </android.support.design.widget.CoordinatorLayout>
