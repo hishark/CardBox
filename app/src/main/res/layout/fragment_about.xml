@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.AboutFragment">
+<android.support.v7.widget.CardView
+    android:layout_margin="5dp"
+    android:background="@color/colorWhite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="我觉得这里可以写个用户使用手册什么的\n啊等想上架了再来搞\n暂时搁置" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+    <TextView
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="4dp"
+        android:text="你好我是卡片盒子V1.0\n我妈是777\n有bug请戳下面小信封联系我妈\n谢谢^^" />
+
+
+
+        <ImageButton
+        android:id="@+id/button_sendMsgTo777"
+        android:backgroundTint="@color/colorWhite"
+        style="@style/Base.Widget.AppCompat.ImageButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_sendmsg_01_large"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -510,7 +510,7 @@ public class MainNavigationActivity extends AppCompatActivity
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_navigation, menu);
@@ -532,7 +532,7 @@ public class MainNavigationActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private void Log_Out(){
         //Toast.makeText(this, "You clicked to log out!", Toast.LENGTH_SHORT).show();
@@ -583,11 +583,11 @@ public class MainNavigationActivity extends AppCompatActivity
             intent.putExtra("RelationType","Follower");
             intent.putExtra("SearchUser",CurrentUserUtil.getCurrentUser());
             startActivity(intent);
-        } /*else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_about) {
             aboutFragment = new AboutFragment();
             replaceFragment(aboutFragment);
             getSupportActionBar().setTitle("关于");
-        } */else if (id == R.id.nav_sendBox) {
+        } else if (id == R.id.nav_sendBox) {
             sendMessageFragment = new SendMessageFragment();
             replaceFragment(sendMessageFragment);
             getSupportActionBar().setTitle("发件箱");

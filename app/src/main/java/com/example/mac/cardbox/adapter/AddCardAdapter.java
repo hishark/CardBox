@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -41,15 +42,15 @@ public class AddCardAdapter extends RecyclerView.Adapter<AddCardAdapter.ViewHold
         View mycardView;
         EditText et_front;
         EditText et_back;
-        ImageButton checkbutton,clearbutton;
+        Button checkbutton,clearbutton;
 
         public ViewHolder(View view) {
             super(view);
             mycardView = view;
             et_front = (EditText) view.findViewById(R.id.et_addCard_front);
             et_back = (EditText) view.findViewById(R.id.et_addCard_back);
-            checkbutton = (ImageButton)view.findViewById(R.id.bt_finishOneInput);
-            clearbutton= (ImageButton)view.findViewById(R.id.bt_clearInput);
+            checkbutton =view.findViewById(R.id.bt_finishOneInput);
+            clearbutton= view.findViewById(R.id.bt_clearInput);
         }
     }
 
@@ -77,7 +78,7 @@ public class AddCardAdapter extends RecyclerView.Adapter<AddCardAdapter.ViewHold
                 result.put("back",holder.et_back.getText().toString());
                 msg.obj = result;
                 handler.sendMessage(msg);
-                Snackbar.make(v,"该卡片已保存，点击右上角完成添加所有",BaseTransientBottomBar.LENGTH_SHORT).show();
+                Snackbar.make(v,"该卡片已保存，点击加号添加下一张，点击右上角完成添加",BaseTransientBottomBar.LENGTH_SHORT).show();
             }
         });
 

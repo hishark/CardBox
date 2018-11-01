@@ -225,7 +225,7 @@
                 android:id="@+id/fake_button_EditBox"
                 android:layout_margin="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 style="@style/TextAppearance.AppCompat.Button"
                 android:backgroundTint="@color/colorWhite"
                 android:text="修改"

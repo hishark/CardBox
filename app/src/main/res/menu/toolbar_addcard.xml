@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_addcard_addOne"
         android:title="添加单张"
-        android:icon="@drawable/ic_menu_addonecard_01"
+        android:icon="@drawable/ic_add_01"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_addcard_checkAll"

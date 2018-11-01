@@ -117,8 +117,15 @@ public class SearchBoxerFragment extends Fragment {
                     //点击搜索时判断搜索类型
                     switch (searchType) {
                         case SEARCH_BY_NICKNAME:
-                            search_user_nickname = et_searchBoxer.getText().toString().trim();
-                            ConnectServerToSearchByName(search_user_nickname);
+                            if(!et_searchBoxer.getText().toString().trim().equals("")) {
+                                search_user_nickname = et_searchBoxer.getText().toString().trim();
+                                ConnectServerToSearchByName(search_user_nickname);
+                            }else {
+                                List<User> userList = new ArrayList<User>();
+                                showAllSearchUser(userList);
+                            }
+                            //search_user_nickname = et_searchBoxer.getText().toString().trim();
+                            //ConnectServerToSearchByName(search_user_nickname);
                             break;
                         case SEARCH_BY_ACCOUNT:
                             search_user_account = et_searchBoxer.getText().toString().trim();

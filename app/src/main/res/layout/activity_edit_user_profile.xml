@@ -163,7 +163,7 @@
             android:layout_margin="3dp"
             android:id="@+id/fake_button_EditUserInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:text="编辑"
             android:textColor="@color/colorPrimary"
             android:backgroundTint="@color/colorWhite"

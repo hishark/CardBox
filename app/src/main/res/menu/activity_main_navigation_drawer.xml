@@ -9,13 +9,14 @@
             android:icon="@drawable/ic_nav_cardbox_32_yellow"
             android:title="我的卡盒" />
         <item
-            android:id="@+id/nav_search"
-            android:icon="@drawable/ic_nav_search_32_yellow_02"
-            android:title="搜索" />
-        <item
             android:id="@+id/nav_mylove"
             android:icon="@drawable/ic_nav_love_32_yellow_02"
             android:title="我喜欢的卡盒" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_search_01"
+            android:title="搜索" />
+
 
         <item
             android:id="@+id/nav_myfollow"
@@ -24,19 +25,23 @@
 
         <item
             android:id="@+id/nav_myfollower"
-            android:icon="@drawable/ic_nav_myfollower_32_02"
+            android:icon="@drawable/ic_fans_02"
             android:title="我的粉丝" />
 
-        <item
-            android:id="@+id/nav_sendBox"
-            android:icon="@drawable/ic_send_box_02"
-            android:title="发件箱" />
+
 
         <item
             android:id="@+id/nav_receiveBox"
             android:icon="@drawable/ic_receive_box_02"
             android:title="收件箱" />
-
+        <item
+            android:id="@+id/nav_sendBox"
+            android:icon="@drawable/ic_send_box_02"
+            android:title="发件箱" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_about_03"
+            android:title="关于" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_nav_logout_32_yellow_01"

@@ -3,13 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     app:cardElevation="2dp"
     app:cardCornerRadius="2dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:padding="10dp"
+        android:padding="15dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,21 +40,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <ImageButton
-            style="@style/Base.Widget.AppCompat.ImageButton"
-            android:src="@drawable/ic_add_onecard_check_yellow_01"
-            android:id="@+id/bt_finishOneInput"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorWhite"/>
-        <ImageButton
-            style="@style/Base.Widget.AppCompat.ImageButton"
-            android:src="@drawable/ic_add_onecard_clear_yellow_02"
-            android:id="@+id/bt_clearInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorWhite"/>
+            <Button
+                android:id="@+id/bt_finishOneInput"
+                style="@style/TextAppearance.AppCompat.Button"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:text="保存"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorPrimary"
+                />
+            <Button
+                android:id="@+id/bt_clearInput"
+                style="@style/TextAppearance.AppCompat.Button"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:textColor="@color/colorWhite"
+                android:text="清空"
+                android:backgroundTint="@color/colorPrimary"/>
+
         </LinearLayout>
     </LinearLayout>
 

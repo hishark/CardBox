@@ -156,21 +156,19 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.img_editUserInfo_avatar:
                 //Toast.makeText(getApplicationContext(),"这里可以换头像啦",Toast.LENGTH_SHORT).show();
-                String title = "选择获取图片方式";
-                String[] items = new String[]{"拍照", "相册"};
+                String[] items = new String[]{ "相册"};
 
                 new AlertDialog.Builder(EditUserProfileActivity.this)
-                        .setTitle(title)
                         .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 switch (which) {
-                                    case REQUEST_CAMERA:
+                                    /*case REQUEST_CAMERA:
                                         //选择拍照
                                         pickImageFromCamera();
-                                        break;
-                                    case REQUEST_PICTURE:
+                                        break;*/
+                                    case 0:
                                         //选择相册
                                         pickImageFromPicture();
                                         break;
@@ -372,6 +370,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
                     Message msg = new Message();
+                    Log.d(TAG, "onResponse: 咋了又");
                     msg.what = UpdateUserInfoSuccess_TAG;
                     handler.sendMessage(msg);
                 }else{
