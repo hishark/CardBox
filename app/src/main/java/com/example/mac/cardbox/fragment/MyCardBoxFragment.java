@@ -97,6 +97,7 @@ public class MyCardBoxFragment extends Fragment {
                     break;
                 case SearchFail_TAG:
                     welcomeSpeech.setVisibility(View.VISIBLE);
+                    tv_boxnum.setText(0+"");
                     if(boxes!=null) {
                         boxes.clear();
                         myBoxAdapter.notifyDataSetChanged();

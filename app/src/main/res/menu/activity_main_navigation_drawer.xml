@@ -37,22 +37,22 @@
             android:icon="@drawable/ic_receive_box_02"
             android:title="收件箱" />
 
-
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_nav_logout_32_yellow_01"
+            android:title="注销" />
 
     </group>
 
     <item android:title="其他">
         <menu>
             <!--这里直接放item即可，暂时没啥想放的，搁置-->
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_shark_01"
-                android:title="关于" />
+            <!--<item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_shark_01"
+            android:title="关于" />-->
 
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_nav_logout_32_yellow_01"
-                android:title="注销" />
+
         </menu>
     </item>
 

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mac.cardbox.R;
@@ -49,6 +50,7 @@ public class ReceiveMessageFragment extends Fragment {
     private List<HashMap<String, Object>> receiveMessageList=null;
     private HashMap<String, Object> receiveMessage=null;
     private RecyclerView recyclerView;
+    private LinearLayout ll_NoMsgHint;
 
     Handler handler = new Handler() {
         @Override
@@ -57,7 +59,12 @@ public class ReceiveMessageFragment extends Fragment {
                 case GetReceiveMessageSuccess_TAG:
                     List<HashMap<String, Object>> result = (List<HashMap<String, Object>>)msg.obj;
                     MessageList = changeHashMapToMessage(result);
-                    ShowAllSendMessage(MessageList);
+                    if (MessageList.size()==0) {
+                        ll_NoMsgHint.setVisibility(View.VISIBLE);
+                    } else {
+                        ShowAllSendMessage(MessageList);
+                        ll_NoMsgHint.setVisibility(View.INVISIBLE);
+                    }
                     break;
 
             }
@@ -92,7 +99,7 @@ public class ReceiveMessageFragment extends Fragment {
         view =  inflater.inflate(R.layout.fragment_receive_message, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerview_receive_message);
-
+        ll_NoMsgHint = view.findViewById(R.id.ll_NoReceiveHint);
         GetReceiveMessage(CurrentUserUtil.getCurrentUser().getUser_account());
 
         return view;

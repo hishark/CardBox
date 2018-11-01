@@ -14,6 +14,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/hello_blank_fragment" />
+<LinearLayout
+    android:id="@+id/ll_NoReceiveHint"
+    android:visibility="invisible"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mailnull_01"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="没有收到邮件哦"/>
 
+</LinearLayout>
 </FrameLayout>

@@ -7,6 +7,15 @@ public class User implements Serializable {
     String user_password;
     String user_nickname;
     String user_avatar;
+    String user_intro;
+
+    public String getUser_intro() {
+        return user_intro;
+    }
+
+    public void setUser_intro(String user_intro) {
+        this.user_intro = user_intro;
+    }
 
     public String getUser_account() {
         return user_account;

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mac.cardbox.R;
@@ -48,6 +49,7 @@ public class SendMessageFragment extends Fragment {
 
     private View view;
     private RecyclerView recyclerView;
+    private LinearLayout ll_NoMsgHint;
 
 
     private static final String TAG = "SendMessageFragment";
@@ -72,6 +74,10 @@ public class SendMessageFragment extends Fragment {
                     List<HashMap<String, Object>> result = (List<HashMap<String, Object>>)msg.obj;
                     MessageList = changeHashMapToMessage(result);
 
+                    if (MessageList.size()==0) {
+                        ll_NoMsgHint.setVisibility(View.VISIBLE);
+                    }
+
                     receiver = new ArrayList<>();
                     for (int i =0;i<MessageList.size();i++) {
                         User user = new User();
@@ -89,6 +95,7 @@ public class SendMessageFragment extends Fragment {
                     Log.d(TAG, "handleMessage: Flag="+flag);
                     if(flag==MessageList.size()-1) {
                         ShowAllSendMessage(MessageList,receiver);
+                        ll_NoMsgHint.setVisibility(View.INVISIBLE);
                     } else {
                         flag++;
                     }
@@ -125,7 +132,7 @@ public class SendMessageFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_send_message, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerview_send_message);
-
+        ll_NoMsgHint = view.findViewById(R.id.ll_NoSendHint);
         //GetSendMessage(CurrentUserUtil.getCurrentUser().getUser_account());
 
         return view;

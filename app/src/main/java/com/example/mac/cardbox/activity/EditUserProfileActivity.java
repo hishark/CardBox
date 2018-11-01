@@ -56,12 +56,13 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
     private CircleImageView img_avatar;
     private EditText et_username;
     private EditText et_useraccount;
+    private EditText et_userintro;
     private Button fake_button_edit;
 
     private static final String AccessKey = "HBckSDRko17AS-s_Ufbb29bYfFMKMV7opdRnx-2C";//此处填七牛云的AccessKey
     private static final String SecretKey = "grNgIr009LWhQyfGvOGua8CPWFmlqfhySioKTrdk";//此处填七牛云的SecretKey
     private static final String updateAvatarUrl="http://" + Constant.Server_IP + ":8080/CardBox-Server/updateUserAvatar";
-    private static final String updateNicknameUrl="http://" + Constant.Server_IP + ":8080/CardBox-Server/updateUserNickname";
+    private static final String updateUserInfoUrl="http://" + Constant.Server_IP + ":8080/CardBox-Server/updateUserInfo";
 
     private static final String TAG = "EditUserProfileActivity";
     private Uri imageUri;
@@ -78,6 +79,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
             switch (msg.what) {
                 case UpdateUserInfoSuccess_TAG:
                     CurrentUserUtil.getCurrentUser().setUser_nickname(et_username.getText().toString());
+                    CurrentUserUtil.getCurrentUser().setUser_intro(et_userintro.getText().toString());
                     Intent intent = new Intent(EditUserProfileActivity.this,MainNavigationActivity.class);
                     startActivity(intent);
                     finish();
@@ -122,6 +124,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
                 .into(img_avatar);
         et_username.setText(CurrentUserUtil.getCurrentUser().getUser_nickname());
         et_useraccount.setHint(CurrentUserUtil.getCurrentUser().getUser_account());
+        et_userintro.setText(CurrentUserUtil.getCurrentUser().getUser_intro());
     }
 
     private void setOnclick() {
@@ -132,6 +135,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
     private void initView() {
         img_avatar = findViewById(R.id.img_editUserInfo_avatar);
         et_username = findViewById(R.id.et_EditUserInfo_username);
+        et_userintro = findViewById(R.id.et_EditUserInfo_userintro);
         et_useraccount = findViewById(R.id.et_EditUserInfo_useraccount);
         fake_button_edit = findViewById(R.id.fake_button_EditUserInfo);
     }
@@ -177,7 +181,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
                         }).show();
                 break;
             case R.id.fake_button_EditUserInfo:
-                UpdateUserInfo(et_username.getText().toString());
+                UpdateUserInfo(et_username.getText().toString(),et_userintro.getText().toString());
                 break;
         }
     }
@@ -332,7 +336,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
         });
     }
 
-    private void UpdateUserInfo(String nickname) {
+    private void UpdateUserInfo(String nickname,String intro) {
         //创建一个OkHttpClient对象
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -346,10 +350,11 @@ public class EditUserProfileActivity extends AppCompatActivity implements View.O
         RequestBody formBody = new FormBody.Builder()
                 .add("user_account", CurrentUserUtil.getCurrentUser().getUser_account())
                 .add("user_nickname",nickname)
+                .add("user_intro",intro)
                 .build();
         //创建一个请求对象
         Request request = new Request.Builder()
-                .url(updateNicknameUrl)
+                .url(updateUserInfoUrl)
                 .post(formBody)
                 .build();
         /**

@@ -583,11 +583,11 @@ public class MainNavigationActivity extends AppCompatActivity
             intent.putExtra("RelationType","Follower");
             intent.putExtra("SearchUser",CurrentUserUtil.getCurrentUser());
             startActivity(intent);
-        } else if (id == R.id.nav_about) {
+        } /*else if (id == R.id.nav_about) {
             aboutFragment = new AboutFragment();
             replaceFragment(aboutFragment);
             getSupportActionBar().setTitle("关于");
-        } else if (id == R.id.nav_sendBox) {
+        } */else if (id == R.id.nav_sendBox) {
             sendMessageFragment = new SendMessageFragment();
             replaceFragment(sendMessageFragment);
             getSupportActionBar().setTitle("发件箱");

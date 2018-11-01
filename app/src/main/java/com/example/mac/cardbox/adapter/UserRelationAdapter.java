@@ -30,12 +30,14 @@ public class UserRelationAdapter extends RecyclerView.Adapter<UserRelationAdapte
         View itemView;
         CircleImageView user_avatar;
         TextView user_nickname;
+        TextView user_intro;
 
         public ViewHolder(View view) {
             super(view);
             itemView = view;
             user_avatar = (CircleImageView) view.findViewById(R.id.tv_userrelation_avatar);
             user_nickname = (TextView) view.findViewById(R.id.tv_userrelation_username);
+            user_intro  = view.findViewById(R.id.tv_userrelation_userIntro);
         }
     }
 
@@ -72,6 +74,7 @@ public class UserRelationAdapter extends RecyclerView.Adapter<UserRelationAdapte
             //Log.d(TAG, "onBindViewHolder: "+user.getUser_avatar());
             Glide.with(mcontext).load(user.getUser_avatar()).into(viewHolder.user_avatar);
             viewHolder.user_nickname.setText(user.getUser_nickname());
+            viewHolder.user_intro.setText(user.getUser_intro());
         }
 
     }
